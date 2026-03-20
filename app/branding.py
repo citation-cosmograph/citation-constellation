@@ -45,7 +45,7 @@ ETHICAL_NOTICE = """
 # Asset Paths (relative to app/ directory)
 # ============================================================
 
-LOGO_PATH = "app/assets/logos.png"
+LOGO_PATH = "app/assets/logo.png"
 FAVICON_PATH = "app/assets/logo.png"
 
 SCORE_INTRO_CARD = f"""
