@@ -53,8 +53,8 @@ SCORE_INTRO_CARD = f"""
   
   <!-- Header -->
   <div style="background: linear-gradient(90deg, rgba(212, 175, 55, 0.25) 0%, rgba(147, 112, 219, 0.25) 100%); padding: 25px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.15);">
-    <h2 style="color: #f4e4c1; margin: 0; font-size: clamp(2rem, 5vw, 3.2rem); letter-spacing: 3px; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">Citation-Constellation</h2>
-    <div style="color: rgba(244, 228, 193, 0.9); font-size: clamp(0.9rem, 2vw, 1.1rem); margin-top: 8px; font-weight: 400; max-width: 800px; margin-left: auto; margin-right: auto;">A citation network analysis tool featuring two novel, complementary bibliometric scores</div>
+    <h2 style="color: #f4e4c1; margin: 0; font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 3px; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">Citation-Constellation</h2>
+    <div style="color: rgba(244, 228, 193, 0.9); font-size: clamp(1.3rem, 2vw, 1.1rem); margin-top: 8px; font-weight: 400; max-width: 800px; margin-left: auto; margin-right: auto;">A citation network analysis tool featuring two novel, complementary bibliometric scores</div>
   </div>
   
   <!-- Hero Section: BARON | Image | HEROCON -->
@@ -248,11 +248,11 @@ FOOTER_HTML = f"""
     </p>
     
     <p style="margin: 0 0 15px 0; font-size: 0.95rem; letter-spacing: 0.5px;">
-        <a href="{REPO_CONSTELLATION}" target="_blank" style="color: #d4af37; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.3s ease;">citation-constellation</a> <span style="color: #d4af37;">✨</span>
-        <span style="color: rgba(255,255,255,0.3); margin: 0 5px;">·</span>
         <a href="{REPO_PULSAR}" target="_blank" style="color: #9370db; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(147, 112, 219, 0.1); border: 1px solid rgba(147, 112, 219, 0.2); transition: all 0.3s ease;">citation-pulsar-helm</a> <span style="color: #9370db;">🌟</span>
         <span style="color: rgba(255,255,255,0.3); margin: 0 5px;">·</span>
         <a href="{REPO_ASTROLABE}" target="_blank" style="color: #64b5f6; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(100, 181, 246, 0.1); border: 1px solid rgba(100, 181, 246, 0.2); transition: all 0.3s ease;">citation-astrolab</a>e <span style="color: #64b5f6;">🔭</span>
+        <span style="color: rgba(255,255,255,0.3); margin: 0 5px;">·</span>
+        <a href="{REPO_CONSTELLATION}" target="_blank" style="color: #d4af37; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.3s ease;">citation-constellation</a> <span style="color: #d4af37;">✨</span>
     </p>
     
     <p style="margin: 15px 0; font-style: italic; color: rgba(255,255,255,0.5); font-size: 0.85rem; max-width: 600px; margin-left: auto; margin-right: auto; padding: 0 20px; border-left: 2px solid rgba(212, 175, 55, 0.3); border-right: 2px solid rgba(147, 112, 219, 0.3);">
