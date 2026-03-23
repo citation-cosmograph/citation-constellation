@@ -14,11 +14,6 @@ BARON_COLOR = "#EAB308"     # amber/yellow
 HEROCON_COLOR = "#22C55E"   # green
 GAP_COLOR = "rgba(34, 197, 94, 0.15)"  # light green fill
 
-# High-contrast qualitative palette for comparison charts (24 distinct colors)
-COMPARISON_PALETTE = (
-    plotly.colors.qualitative.Dark24 + plotly.colors.qualitative.Light24
-)
-
 
 def build_trajectory_chart(
     audit_data: dict,
@@ -162,12 +157,17 @@ def build_baron_comparison_trajectory(
         return None
 
     num_reports = len(reports)
+    if num_reports == 1:
+        colors = plotly.colors.sample_colorscale("Turbo", [0.5])
+    else:
+        colors = plotly.colors.sample_colorscale("Turbo", [i / (num_reports - 1) for i in range(num_reports)])
+    
     fig = go.Figure()
 
     for i, report in enumerate(reports):
         trajectory = report.get("trajectory", [])
         name = report.get("researcher", {}).get("display_name", f"Researcher {i+1}")
-        color = COMPARISON_PALETTE[i % len(COMPARISON_PALETTE)]
+        color = colors[i]
 
         baron_pts = [(r["year"], r["baron"]) for r in trajectory if r.get("baron") is not None]
         if baron_pts:
@@ -180,22 +180,14 @@ def build_baron_comparison_trajectory(
                 marker=dict(size=6),
             ))
 
-    # ~3 names per row, ~25px per row, extra 30px gap below x-axis label
-    legend_rows = max(1, -(-num_reports // 3))
-    bottom_margin = 70 + legend_rows * 25
-
     fig.update_layout(
         title="BARON Trajectory Comparison",
         xaxis=dict(title="Year", gridcolor="rgba(0,0,0,0.05)"),
         yaxis=dict(title="BARON Score (%)", range=[0, 105], gridcolor="rgba(0,0,0,0.08)"),
-        legend=dict(
-            orientation="h",
-            yanchor="top", y=-0.25,
-            xanchor="center", x=0.5,
-        ),
+        legend=dict(yanchor="bottom", y=0.01, xanchor="right", x=0.99),
         hovermode="x unified",
         plot_bgcolor="white", paper_bgcolor="white",
-        margin=dict(l=50, r=20, t=50, b=bottom_margin),
+        margin=dict(l=50, r=20, t=50, b=40),
         height=450,
     )
     return fig
@@ -211,12 +203,17 @@ def build_herocon_comparison_trajectory(
         return None
 
     num_reports = len(reports)
+    if num_reports == 1:
+        colors = plotly.colors.sample_colorscale("Turbo", [0.5])
+    else:
+        colors = plotly.colors.sample_colorscale("Turbo", [i / (num_reports - 1) for i in range(num_reports)])
+        
     fig = go.Figure()
 
     for i, report in enumerate(reports):
         trajectory = report.get("trajectory", [])
         name = report.get("researcher", {}).get("display_name", f"Researcher {i+1}")
-        color = COMPARISON_PALETTE[i % len(COMPARISON_PALETTE)]
+        color = colors[i]
 
         herocon_pts = [(r["year"], r["herocon"]) for r in trajectory if r.get("herocon") is not None]
         if herocon_pts:
@@ -229,22 +226,14 @@ def build_herocon_comparison_trajectory(
                 marker=dict(size=6),
             ))
 
-    # ~3 names per row, ~25px per row, extra 30px gap below x-axis label
-    legend_rows = max(1, -(-num_reports // 3))
-    bottom_margin = 70 + legend_rows * 25
-
     fig.update_layout(
         title="HEROCON Trajectory Comparison",
         xaxis=dict(title="Year", gridcolor="rgba(0,0,0,0.05)"),
         yaxis=dict(title="HEROCON Score (%)", range=[0, 105], gridcolor="rgba(0,0,0,0.08)"),
-        legend=dict(
-            orientation="h",
-            yanchor="top", y=-0.25,
-            xanchor="center", x=0.5,
-        ),
+        legend=dict(yanchor="bottom", y=0.01, xanchor="right", x=0.99),
         hovermode="x unified",
         plot_bgcolor="white", paper_bgcolor="white",
-        margin=dict(l=50, r=20, t=50, b=bottom_margin),
+        margin=dict(l=50, r=20, t=50, b=40),
         height=450,
     )
     return fig

@@ -8,7 +8,7 @@ Branding constants, ethical disclaimers, and UI text for the Gradio app.
 # App Identity
 # ============================================================
 
-APP_TITLE = "Where do your citations come from? Citation-Constellation: Decomposing citation profiles by network proximity with BARON and HEROCON scores"
+APP_TITLE = "Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores"
 APP_SUBTITLE = "An open-source, no-code tool for multi-phase citation network decomposition; fully auditable with downloadable data, ready to install locally"
 APP_VERSION = "v0.3"
 APP_FULL_TITLE = f"{APP_TITLE} — {APP_SUBTITLE}"
@@ -233,7 +233,7 @@ REPO_PULSAR = f"{GITHUB_ORG}/citation-pulsar-helm"
 REPO_ASTROLABE = f"{GITHUB_ORG}/citation-astrolabe"
 
 PAPER_REFERENCE = (
-    "Alam, M. U. (2026). Where do your citations come from? Citation-Constellation: Decomposing citation profiles by network proximity with BARON and HEROCON scores "
+    "Alam, M. U. (2026). Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores "
     " *[arXiv: placeholder]*."
 )
 

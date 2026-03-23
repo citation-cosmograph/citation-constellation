@@ -142,9 +142,11 @@ def build_tab():
             comparison_table = gr.Dataframe(label="Score Comparison", interactive=False)
             
             # --- Two comparison plots ---
+            #with gr.Row():
             comparison_trajectory_baron = gr.Plot(label="BARON Trajectory Comparison")
             comparison_trajectory_herocon = gr.Plot(label="HEROCON Trajectory Comparison")
             
+
             gr.Markdown("### Individual Reports")
             # Increased from 5 to 115 to handle more comparisons
             individual_accordions = []
@@ -161,33 +163,16 @@ def build_tab():
                         "graph": ind_graph,
                         "trajectory": ind_trajectory,
                     })
-
-        # ── Event handler (generator pattern) ──
+                    
+        # ── Event handler ──
         def on_visualize(files):
             if not files:
-                yield {
+                return {
                     status_output: gr.update(value="⚠️ Please upload at least one JSON file.", visible=True),
                     single_section: gr.update(visible=False),
                     multi_section: gr.update(visible=False),
                 }
-                return
-
-            # ── Show loading message immediately ──
-            n = len(files)
-            yield {
-                status_output: gr.update(
-                    value=(
-                        "🔄 **Visualization in progress...**\n\n"
-                        f"Processing {n} file{'s' if n != 1 else ''} — "
-                        "depending on the number of JSON files this may take some time. "
-                        "Please wait — do not close this tab."
-                    ),
-                    visible=True,
-                ),
-                single_section: gr.update(visible=False),
-                multi_section: gr.update(visible=False),
-            }
-
+            
             # Read, parse, and strictly validate files
             contents = []
             file_errors = []
@@ -222,12 +207,11 @@ def build_tab():
             # If ALL files failed, return the errors immediately
             if not contents:
                 error_msg = "❌ " + "\n\n❌ ".join(file_errors)
-                yield {
+                return {
                     status_output: gr.update(value=error_msg, visible=True),
                     single_section: gr.update(visible=False),
                     multi_section: gr.update(visible=False),
                 }
-                return
 
             # Proceed with valid files
             reports, parse_errors = parse_multiple_reports(contents)
@@ -236,12 +220,11 @@ def build_tab():
             
             if not reports:
                 error_msg = "❌ " + "\n\n❌ ".join(all_errors)
-                yield {
+                return {
                     status_output: gr.update(value=error_msg, visible=True),
                     single_section: gr.update(visible=False),
                     multi_section: gr.update(visible=False),
                 }
-                return
 
             warning = ""
             if all_errors:
@@ -250,7 +233,7 @@ def build_tab():
             # ── Single file ──
             if len(reports) == 1:
                 audit = reports[0]
-                yield {
+                updates = {
                     status_output: gr.update(value=warning if warning else "", visible=bool(warning)),
                     single_section: gr.update(visible=True),
                     multi_section: gr.update(visible=False),
@@ -261,17 +244,18 @@ def build_tab():
                     single_trajectory: build_trajectory_chart(audit),
                     single_full_table: build_classification_dataframe(audit),
                 }
-                return
+                return updates
 
             # ── Multiple files ──
             updates = {
                 status_output: gr.update(
-                    value=warning + f"✅ Loaded {len(reports)} reports for comparison.",
+                    value=warning + f"Loaded {len(reports)} reports for comparison.",
                     visible=True,
                 ),
                 single_section: gr.update(visible=False),
                 multi_section: gr.update(visible=True),
                 comparison_table: build_comparison_table(reports),
+                # --- NEW: Call both functions ---
                 comparison_trajectory_baron: build_baron_comparison_trajectory(reports),
                 comparison_trajectory_herocon: build_herocon_comparison_trajectory(reports),
             }
@@ -289,8 +273,7 @@ def build_tab():
                 else:
                     updates[acc_data["accordion"]] = gr.update(visible=False)
 
-            yield updates
-            return
+            return updates
 
         # Collect all outputs
         all_outputs = [
