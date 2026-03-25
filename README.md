@@ -214,6 +214,72 @@ The tool displays ORCID-flagged works with reasons and prompts for a decision. I
 
 ---
 
+## Demo
+
+### Ethical Notice
+
+Every analysis output begins with a prominent ethical disclaimer, reinforcing that BARON and HEROCON measure citation network structure, not research quality, impact, or integrity.
+
+![Ethical notice displayed at the top of every analysis output.](app/assets/ethical-note.png)
+
+### Score Panel
+
+The score panel presents BARON and HEROCON scores alongside key summary statistics: total citations, classifiable citations, the BARON–HEROCON gap, and a data quality reliability rating.
+
+![Score panel — Web Interface](app/assets/score-panel-tool.png)
+
+![Score panel — Command Line Interface](app/assets/score-panel-tool-cli.png)
+
+### Classification Breakdown
+
+The donut chart provides a proportional breakdown of citation origins across all classification categories, with BARON and HEROCON scores displayed in the center.
+
+![Classification breakdown donut chart](app/assets/classification-breakdown.png)
+
+### Classification Summary
+
+Each citation category with its count, percentage of classifiable citations, and the HEROCON weight applied.
+
+![Classification summary — Web Interface](app/assets/classification-summary.png)
+
+![Classification summary — Command Line Interface](app/assets/classification-summary-cli.png)
+
+### Co-Author Network Graph
+
+Interactive force-directed network. The target researcher appears as a gold node, direct co-authors in crimson (sized by shared publications), and transitive co-authors in blue. Hover any node for details. Networks exceeding 150 nodes are automatically pruned.
+
+![Co-author network graph (overview)](app/assets/co-author-network.png)
+
+![Co-author network graph (detail)](app/assets/co-author-network2.png)
+
+### Career Trajectory
+
+Cumulative BARON and HEROCON scores over time as dual lines, with a shaded region representing the gap. Stacked bars beneath show annual citation volume.
+
+![Career trajectory — Web Interface](app/assets/career-trajectory.png)
+
+![Career trajectory — Command Line Interface](app/assets/career-trajectory-cli.png)
+
+### Citation Table
+
+Every individual citation with its classification, confidence level, detection phase, and a human-readable rationale. This is the audit trail made visible — any classification can be inspected and contested.
+
+![Full citation table from the audit trail](app/assets/citation-table.png)
+
+### Comparison View
+
+Side-by-side structural analysis of multiple researchers from uploaded audit files. Researcher names below are anonymized.
+
+![Comparison table](app/assets/comparison-table.png)
+
+![BARON trajectory comparison](app/assets/baron-trajectory-comparison.png)
+
+![HEROCON trajectory comparison](app/assets/herocon-trajectory-comparison.png)
+
+![Individual reports within the comparison view](app/assets/individual-reports.png)
+
+---
+
 ## Output & Visualizations
 
 Both CLI and web interface produce identical scores and audit trails. The web interface additionally renders:
