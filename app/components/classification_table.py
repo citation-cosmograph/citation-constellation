@@ -8,7 +8,6 @@ Includes export helpers for Excel and JSON download.
 import json
 import os
 import tempfile
-from io import BytesIO
 from typing import Optional
 
 import pandas as pd

@@ -15,10 +15,8 @@ Timeouts scale dynamically with the researcher's citation count:
 
 import asyncio
 import concurrent.futures
-import json
 import os
 import tempfile
-import threading
 from typing import Optional
 
 from app.validation import sanitize_filename

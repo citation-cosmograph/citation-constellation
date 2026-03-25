@@ -16,6 +16,7 @@ APP_FULL_TITLE = f"{APP_TITLE}  {APP_SUBTITLE}"
 # ============================================================
 # Ethical Disclaimer (non-dismissable, shown prominently)
 # ============================================================
+DISCLAIMER_SHORT = "BARON and HEROCON measure citation network structure, not research quality, impact, or integrity. They should not be used for hiring, promotion, or funding decisions. Every classification decision is documented in the downloadable audit report. Verify any result before drawing conclusions."
 
 
 ETHICAL_NOTICE = """
