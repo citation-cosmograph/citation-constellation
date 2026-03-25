@@ -7,6 +7,21 @@
 # Run:
 # docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v1
 
+# Use defaults (8 workers for 16 GB RAM)
+#docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v1
+
+# Override for a smaller machine (4 GB)
+#docker run --rm -it -p 7860:7860 \
+#    -e CC_MAX_WORKERS=2 \
+#    mahbub1969/citation-constellation:v1
+
+# Override multiple settings
+#docker run --rm -it -p 7860:7860 \
+#    -e CC_MAX_WORKERS=4 \
+#    -e CC_PIPELINE_TIMEOUT_MAX=1800 \
+#    -e RATE_LIMIT_MAX=20 \
+#    mahbub1969/citation-constellation:v1
+
 
 FROM python:3.11-slim
 
@@ -43,9 +58,21 @@ COPY app/ $HOME/app/app/
 COPY start-script.sh $HOME/app/start-script.sh
 RUN chmod +x $HOME/app/start-script.sh
 
-# ── Gradio temp directory for uploads ──
+# ── Gradio config ──
 ENV GRADIO_TEMP_DIR="/home/appuser/app/temp/"
 ENV GRADIO_SERVER_NAME="0.0.0.0"
+
+# ── Citation-Constellation config ──
+# CC_MAX_WORKERS: concurrent analysis pipelines (each uses ~1.5 GB peak)
+#   RAM guide: 2 GB → 1 | 4 GB → 2 | 8 GB → 4 | 16 GB → 8
+# CC_PIPELINE_TIMEOUT_MAX: absolute max seconds for a single pipeline run
+# CC_VALIDATE_TIMEOUT_MAX: absolute max seconds for ORCID validation step
+# CC_RATE_LIMIT_MAX: max analyses per hour per session (renamed from RATE_LIMIT_MAX)
+ENV CC_MAX_WORKERS=8
+ENV CC_PIPELINE_TIMEOUT_MAX=3600
+ENV CC_VALIDATE_TIMEOUT_MAX=600
+ENV RATE_LIMIT_MAX=10
+
 RUN mkdir -p $HOME/app/temp $HOME/app/audits
 
 # ── Permissions ──

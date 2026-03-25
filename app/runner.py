@@ -8,7 +8,7 @@ Gradio callback crashes silently or requires multiple clicks. This module
 solves that by running the pipeline in a dedicated thread.
 
 Timeouts scale dynamically with the researcher's citation count:
-  - Base: 5 minutes (handles small profiles comfortably)
+  - Base: 10 minutes (safe default for unknown-size profiles)
   - +3 minutes per 1000 citations (proportional to API work)
   - Capped by CC_PIPELINE_TIMEOUT_MAX env var (default: 1 hour)
 """
@@ -17,14 +17,85 @@ import asyncio
 import concurrent.futures
 import os
 import tempfile
+import threading
 from typing import Optional
 
 from app.validation import sanitize_filename
 
 
 # Thread pool for running async pipelines outside Gradio's event loop.
-# 4 workers: allows headroom if a previous run's thread is still winding down.
-_executor = concurrent.futures.ThreadPoolExecutor(max_workers=4)
+# Default 2 workers (safe for 2–4 GB). Override with CC_MAX_WORKERS env var.
+#
+# RAM guide:
+#   2–4 GB  → CC_MAX_WORKERS=2  (default)
+#   8 GB    → CC_MAX_WORKERS=4
+#   16 GB   → CC_MAX_WORKERS=8
+#
+# Each large pipeline (4000+ citations) uses ~1.5 GB at peak.
+# Gradio concurrency_limit (40) allows all users to get immediate queue
+# feedback even when all worker slots are busy.
+MAX_WORKERS = int(os.environ.get("CC_MAX_WORKERS", "8"))
+GRADIO_CONCURRENCY = MAX_WORKERS * 5  # 5x workers: ensures queue feedback for all waiting users
+_executor = concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS)
+
+# ============================================================
+# Active Run Tracking (for queue awareness)
+# ============================================================
+
+_active_lock = threading.Lock()
+_active_runs = 0
+
+
+def get_queue_status() -> dict:
+    """
+    Return current queue status for UI display.
+
+    Returns dict with:
+        active_runs: int — currently executing pipelines
+        queue_position: int — how many would be ahead if submitted now
+        is_queued: bool — True if all workers are busy (new job would wait)
+        message: str — human-readable status message
+    """
+    with _active_lock:
+        active = _active_runs
+
+    if active == 0:
+        return {
+            "active_runs": 0, "queue_position": 0,
+            "is_queued": False, "message": "",
+        }
+    elif active < MAX_WORKERS:
+        return {
+            "active_runs": active, "queue_position": 0,
+            "is_queued": False,
+            "message": f"ℹ️ {active} other analysis run(s) in progress — yours will start immediately.",
+        }
+    else:
+        queue_pos = active - MAX_WORKERS + 1
+        return {
+            "active_runs": active, "queue_position": queue_pos,
+            "is_queued": True,
+            "message": (
+                f"⏳ **All {MAX_WORKERS} analysis slots are currently in use.** "
+                f"Your request is **#{queue_pos} in queue** and will start "
+                f"as soon as a slot frees up. This may add several minutes to the wait. "
+                f"For immediate results, consider using the **CLI** instead."
+            ),
+        }
+
+
+def _track_start():
+    """Increment active run counter."""
+    global _active_runs
+    with _active_lock:
+        _active_runs += 1
+
+
+def _track_end():
+    """Decrement active run counter."""
+    global _active_runs
+    with _active_lock:
+        _active_runs = max(0, _active_runs - 1)
 
 # ============================================================
 # Timeout Configuration
@@ -40,18 +111,24 @@ def _compute_pipeline_timeout(estimated_citations: int = 0) -> int:
     Compute a proportional timeout based on expected citation count.
 
     Formula: base + (citations / 1000) * per_1000_increment
-      - Base:      300s (5 min)  — enough for small profiles
-      - Per 1000:  180s (3 min)  — scales with API fetching work
-      - Min:       300s
+      - Base:      600s (10 min)  — safe default even for unknown profiles
+      - Per 1000:  180s (3 min)   — scales with API fetching work
+      - Min:       600s
       - Max:       PIPELINE_TIMEOUT_MAX (default 3600s = 1 hour)
 
+    When estimated_citations is 0 (unknown), the base of 600s applies.
+    This is the non-confirm mode where we don't know the citation count
+    upfront. 600s handles most profiles; truly large ones should use
+    confirm mode or the CLI.
+
     Examples:
-        500 citations  → ~390s  (~6.5 min)
-        2000 citations → ~660s  (~11 min)
-        4000 citations → ~1020s (~17 min)
-        8000 citations → ~1740s (~29 min)
+        0 citations (unknown) → 600s  (10 min) — safe default
+        500 citations  → 690s  (~11.5 min)
+        2000 citations → 960s  (~16 min)
+        4000 citations → 1320s (~22 min)
+        8000 citations → 2040s (~34 min)
     """
-    base = 300
+    base = 600
     per_1000 = 180
     dynamic = base + (estimated_citations / 1000) * per_1000
     return min(max(int(dynamic), base), PIPELINE_TIMEOUT_MAX)
@@ -97,10 +174,21 @@ def estimate_time_human(cited_by_count: int) -> str:
 def format_elapsed(seconds: float) -> str:
     """
     Format elapsed seconds into a human-readable string.
-    Re-exported from models.py for convenience in app/ imports.
+
+    Examples:
+        42.3   → "42s"
+        127.5  → "2m 8s"
+        270.0  → "4m 30s"
+        3672.1 → "1h 1m 12s"
     """
-    from models import format_elapsed as _fmt
-    return _fmt(seconds)
+    total = int(seconds)
+    if total < 60:
+        return f"{total}s"
+    hours, remainder = divmod(total, 3600)
+    minutes, secs = divmod(remainder, 60)
+    if hours > 0:
+        return f"{hours}h {minutes}m {secs}s"
+    return f"{minutes}m {secs}s"
 
 
 def _run_in_new_loop(coro):
@@ -193,8 +281,16 @@ def validate_works_sync(
             }
 
     future = _executor.submit(_run_in_new_loop, _validate())
-    timeout = _compute_validate_timeout(0)  # conservative: we don't know works count yet
-    return future.result(timeout=timeout)
+    timeout = _compute_validate_timeout(0)
+    # Add buffer if queued — timeout shouldn't expire while waiting for a worker
+    queue = get_queue_status()
+    if queue["is_queued"]:
+        timeout += 300  # +5 min buffer for queue wait
+    _track_start()
+    try:
+        return future.result(timeout=timeout)
+    finally:
+        _track_end()
 
 
 # ============================================================
@@ -247,10 +343,17 @@ def run_pipeline_sync(
     )
 
     # Run async pipeline in a new event loop on a worker thread
-    # Timeout scales with citation count
+    # Timeout scales with citation count + queue buffer
     timeout = _compute_pipeline_timeout(estimated_citations)
+    queue = get_queue_status()
+    if queue["is_queued"]:
+        timeout += 600  # +10 min buffer for queue wait
     future = _executor.submit(_run_in_new_loop, pipeline.run(identifier))
-    score_result, audit = future.result(timeout=timeout)
+    _track_start()
+    try:
+        score_result, audit = future.result(timeout=timeout)
+    finally:
+        _track_end()
 
     # ── Build filename (same format as audit.py) ──
     import re

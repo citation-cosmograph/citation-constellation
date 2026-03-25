@@ -17,7 +17,7 @@ import gradio as gr
 
 from app.validation import validate_identifier, validate_since_year, validate_depth
 from app.rate_limiter import limiter
-from app.runner import run_pipeline_sync, validate_works_sync, estimate_time_human, format_elapsed
+from app.runner import run_pipeline_sync, validate_works_sync, estimate_time_human, format_elapsed, get_queue_status, GRADIO_CONCURRENCY
 from app.branding import (
     IDENTIFIER_HELP, SINCE_HELP, DEPTH_HELP, CONFIRM_HELP, WEIGHTS_HELP,
     DISCLAIMER_SHORT,
@@ -29,6 +29,32 @@ from app.components.classification_table import (
     build_classification_dataframe, build_classification_summary,
     export_classifications_json,
 )
+
+
+# ============================================================
+# Helpers
+# ============================================================
+
+def _safe_error_msg(e: Exception) -> str:
+    """
+    Extract a useful error message from an exception.
+
+    concurrent.futures.TimeoutError and some other exceptions have an
+    empty str() representation. This helper falls back to the class name
+    so users never see a blank "Analysis failed: ." message.
+    """
+    msg = str(e).strip()
+    if msg:
+        return msg[:300]
+    return type(e).__name__
+
+
+def _queue_notice() -> str:
+    """Return a queue status notice string, or empty if no queue."""
+    queue = get_queue_status()
+    if queue["message"]:
+        return f"\n\n{queue['message']}"
+    return ""
 
 
 def _render_results(audit_data: dict, filepath: str, pipeline_elapsed: float) -> dict:
@@ -348,6 +374,7 @@ def build_tab():
                         "🔄 **Fetching publications and validating against ORCID...**\n\n"
                         "This typically takes **10–30 seconds**. "
                         "You will be able to review flagged works before scoring begins."
+                        + _queue_notice()
                     ),
                     status_visible=True,
                 )
@@ -360,7 +387,7 @@ def build_tab():
                 except Exception as e:
                     yield _make_output(
                         status_msg=(
-                            f"❌ **Validation failed:** {str(e)[:300]}. "
+                            f"❌ **Validation failed:** {_safe_error_msg(e)}. "
                             "Please check the identifier and try again."
                         ),
                         status_visible=True,
@@ -382,6 +409,7 @@ def build_tab():
                             f"(~{cited_by_count:,} citations). "
                             f"Estimated time: **{time_estimate}**. "
                             "Please wait — do not close this tab."
+                            + _queue_notice()
                         ),
                         status_visible=True,
                     )
@@ -397,7 +425,13 @@ def build_tab():
                         )
                     except Exception as e:
                         yield _make_output(
-                            status_msg=f"❌ **Analysis failed:** {str(e)[:300]}",
+                            status_msg=(
+                                f"❌ **Analysis failed:** {_safe_error_msg(e)}. "
+                                "For researchers with 4,000+ citations or 200+ publications, "
+                                "consider using the **CLI** instead (see the "
+                                "**💻 How to Run Here & Install Locally** tab). "
+                                "The CLI has no timeout limits."
+                            ),
                             status_visible=True,
                         )
                         return
@@ -480,6 +514,7 @@ def build_tab():
                         "small profiles finish in **1–3 minutes**, while large profiles "
                         "(2000+ citations) may take **10–30 minutes**. "
                         "Please wait — do not close this tab."
+                        + _queue_notice()
                     ),
                     status_visible=True,
                 )
@@ -495,10 +530,13 @@ def build_tab():
                 except Exception as e:
                     yield _make_output(
                         status_msg=(
-                            f"❌ **Analysis failed:** {str(e)[:300]}. "
+                            f"❌ **Analysis failed:** {_safe_error_msg(e)}. "
                             "This may be due to a network issue with OpenAlex, "
                             "an invalid identifier, or a timeout for very large profiles. "
-                            "Please check and try again."
+                            "For researchers with 4,000+ citations or 200+ publications, "
+                            "consider using the **CLI** instead (see the "
+                            "**💻 How to Run Here & Install Locally** tab). "
+                            "The CLI has no timeout limits."
                         ),
                         status_visible=True,
                     )
@@ -534,6 +572,7 @@ def build_tab():
                     f"(~{cited_by_count:,} citations). "
                     f"Estimated time: **{time_estimate}**. "
                     "Please wait — do not close this tab."
+                    + _queue_notice()
                 ),
                 status_visible=True,
                 confirm_visible=False,
@@ -552,8 +591,11 @@ def build_tab():
             except Exception as e:
                 yield _make_output(
                     status_msg=(
-                        f"❌ **Analysis failed:** {str(e)[:300]}. "
-                        "Please try again."
+                        f"❌ **Analysis failed:** {_safe_error_msg(e)}. "
+                        "For researchers with 4,000+ citations or 200+ publications, "
+                        "consider using the **CLI** instead (see the "
+                        "**💻 How to Run Here & Install Locally** tab). "
+                        "The CLI has no timeout limits."
                     ),
                     status_visible=True,
                 )
@@ -586,6 +628,12 @@ def build_tab():
             return gr.update(visible=False)
 
         # ── Wire up buttons ──
+        # concurrency_limit = MAX_WORKERS × 5, imported as GRADIO_CONCURRENCY.
+        # Must be higher than the thread pool so ALL users immediately enter
+        # on_run, see the queue status message, then wait on the thread pool.
+        # The handlers themselves are lightweight generators (~10 KB each).
+        #
+        #   8 workers → 40 | 4 workers → 20 | 2 workers → 10 | 1 worker → 5
         run_btn.click(
             fn=on_run,
             inputs=[
@@ -593,12 +641,14 @@ def build_tab():
                 confirm_checkbox, weights_file,
             ],
             outputs=all_outputs,
+            concurrency_limit=GRADIO_CONCURRENCY,
         )
 
         confirm_btn.click(
             fn=on_confirm,
             inputs=[flagged_checkbox, validation_state],
             outputs=all_outputs,
+            concurrency_limit=GRADIO_CONCURRENCY,
         )
 
         export_json_btn.click(
