@@ -409,16 +409,6 @@ BARON treats all layers 0–4 as in-group (weight = 0) and only counts fully ext
 | 4d | Committee member in network | 0 | 0.4 | Moderate credit; weaker governance connection |
 | 5 | External | 1 | 1.0 | Full credit; no detected relationship |
 
-**Score computation.**
-
-
-$\\text{BARON} = \\frac{\\text{external citations}}{\\text{classifiable citations}} \\times 100$
-
-$\\text{HEROCON} = \\frac{\\sum_{i} w_i}{\\text{classifiable citations}} \\times 100$
-
-where $w_i$ is the HEROCON weight for citation $i
-
-The diagnostic gap represents the proportion of impact attributable to in-group citations under graduated weighting.
 
 **Score computation.**
 
