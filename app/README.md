@@ -1,17 +1,19 @@
-# BARON & HEROCON — Web Interface
+# Citation-Constellation — Web Interface
 
-**Citation Network Structure Analysis — No-Code UI**
+**No-Code UI for BARON & HEROCON Citation Network Analysis**
 
-A Gradio-based web interface for computing and visualizing BARON and HEROCON scores. Designed for researchers who want interactive results without touching the command line. Deployed on [SciLifeLab Serve](https://serve.scilifelab.se).
+A Gradio-based web interface for computing and visualizing BARON and HEROCON scores. Deployed on [SciLifeLab Serve](https://serve.scilifelab.se) — no installation, registration, or payment required.
+
+**Live:** [citation-constellation.serve.scilifelab.se](https://citation-constellation.serve.scilifelab.se)
 
 ```
-pulsar 🌟 → astrolabe 🔭 → citation-constellation ✨
-(the signal)   (the instrument)   (the map — you are here)
+pulsar 🌟 → astrolabe 🔭 → constellation ✨
+the signal    the instrument    the map — you are here
 ```
 
 ---
 
-## ⚠️ Ethical Notice
+## Ethical Notice
 
 These scores measure **citation network structure** — where in the social graph citations originate — **not research quality, impact, or integrity**.
 
@@ -19,15 +21,15 @@ In-group citation is normal and often appropriate. A low BARON score may indicat
 
 **These scores should NOT be used for hiring, promotion, or funding decisions.**
 
-Every classification decision is documented in the downloadable audit trail. Verify any result before drawing conclusions.
+Every classification decision is documented in the downloadable audit trail.
 
 ---
 
 ## How to Use
 
-The interface has three tabs: **Run New Analysis**, **Visualize Existing Reports**, and **About**.
+The interface has six tabs: **Run Analysis**, **View Existing Audits**, **How to Run Here & Install Locally**, **How BARON & HEROCON Work**, **Future Features**, and **Full Research Paper**.
 
-### Tab 1: Run New Analysis
+### Tab 1: Run Analysis
 
 Enter a researcher identifier and get interactive BARON & HEROCON results.
 
@@ -35,96 +37,135 @@ Enter a researcher identifier and get interactive BARON & HEROCON results.
 
 | Field | What to enter | Required? |
 |-------|--------------|-----------|
-| **Researcher Identifier** | An ORCID (e.g., `0000-0000-0000-0000`) or OpenAlex ID (e.g., `A5100390903`). You can paste the full URL — the tool extracts the ID automatically. | Yes |
-| **Since Year** | Exclude publications before this year. Useful when OpenAlex has merged works from a different researcher with a similar name. Leave blank to include all works. | No |
-| **Co-author Graph Depth** | How many hops of co-authorship count as "in-group". **Depth 1:** only direct co-authors. **Depth 2** (recommended): co-authors of co-authors. **Depth 3:** three hops, largest in-group. | Default: 2 |
-| **Wait for my validation** | When checked, the tool pauses after ORCID validation to show you a list of flagged papers (potential misattributions). You review and confirm before scoring proceeds. When unchecked, flagged papers are automatically excluded. | Default: off |
-| **Custom HEROCON Weights** | Upload a JSON file to override the default graduated weights. Any classification not specified uses the default. | No |
+| **Researcher Identifier** | ORCID (e.g., `0000-0002-1101-3793`) or OpenAlex ID (e.g., `A5100390903`). Full URLs accepted — the tool extracts the ID automatically. | Yes |
+| **Since Year** | Exclude publications before this year. Useful for name collision in OpenAlex. Leave blank to include all works. | No |
+| **Co-author Graph Depth** | Hops of co-authorship counted as in-group. **1:** direct only. **2** (default): co-authors of co-authors. **3:** three hops. | Default: 2 |
+| **Wait for my validation** | Pause after ORCID validation to review flagged papers before scoring. When unchecked, flagged papers are automatically excluded. | Default: off |
+| **Custom HEROCON Weights** | Upload a JSON file to override default graduated weights. Unspecified classifications use defaults. | No |
 
-#### What Happens When You Click "Run Analysis"
+#### What Happens on "Run Analysis"
 
-1. The tool resolves the researcher profile via OpenAlex
-2. Fetches all their publications (with ORCID cross-validation)
+1. Resolves the researcher profile via OpenAlex
+2. Fetches all publications (with ORCID cross-validation)
 3. For each publication, fetches all incoming citations
 4. Classifies every citation through three detection layers:
    - **Phase 1:** Self-citations (author ID match)
-   - **Phase 2:** Co-author network (graph distance)
+   - **Phase 2:** Co-author network (BFS graph distance)
    - **Phase 3:** Institutional affiliation (temporal ROR matching)
-5. Computes BARON (strict) and HEROCON (graduated) scores
+5. Computes BARON (strict binary) and HEROCON (graduated weighted) scores
 6. Generates interactive visualizations and a downloadable audit report
 
-**Rate limit:** 10 analyses per hour per session. The counter resets hourly.
+**Rate limit:** 10 analyses per hour per session.
 
-#### Results You'll See
+#### Results
 
-**Score Summary** — BARON, HEROCON, gap, total citations, reliability rating in a clean table.
+- **Score Summary** — BARON, HEROCON, gap, total citations, classifiable citations, reliability rating
+- **Classification Donut Chart** — Proportional breakdown with scores in center
+- **Classification Summary Table** — Each category with count, percentage, and HEROCON weight
+- **Co-Author Network Graph** — Interactive force-directed network:
+  - 🟡 Gold node (large): target researcher
+  - 🔴 Crimson nodes: direct co-authors (sized by shared papers)
+  - 🔵 Blue nodes: transitive co-authors
+  - Edges: thickness reflects co-authorship strength (papers × recency decay)
+  - Hover any node for details. Networks above 150 nodes are auto-pruned.
+- **Career Trajectory Chart** — Dual-line BARON (yellow) and HEROCON (green) over time, shaded gap area, cumulative citation bars
+- **Full Classification Table** — Every citation with classification, confidence, phase, and human-readable rationale. Collapsible accordion.
+- **Download Audit Report** — Complete JSON audit file
 
-**Classification Donut** — Visual breakdown of where citations come from: self, co-author, institutional, external, unknown. BARON and HEROCON scores displayed in the center.
-
-**Classification Summary Table** — Each category with count, percentage, and HEROCON weight.
-
-**Co-Author Network Graph** — Interactive force-directed network:
-- 🟡 **Gold node (large):** Target researcher
-- 🔴 **Crimson nodes:** Direct co-authors (depth 1). Size scales with shared papers.
-- 🔵 **Blue nodes:** Transitive co-authors (depth 2)
-- **Edges:** Thickness reflects co-authorship strength (papers × recency decay)
-- **Hover** any node to see: name, shared papers, strength, last collaboration year
-- **Zoom, pan, reset** with plotly controls
-
-**Career Trajectory Chart** — Dual-line chart showing BARON (yellow) and HEROCON (green) over time:
-- Shaded area between the lines = the "gap" (inner circle effect)
-- Gray bars = cumulative citation count (right axis)
-- Hover any year for exact values
-
-**Full Classification Table** — Every individual citation with: citing paper, cited paper, classification, confidence, phase, and human-readable rationale. Sortable and searchable. Expandable accordion (collapsed by default to keep the page clean).
-
-**Download Button** — Downloads the complete JSON audit report. Filename format:
+**Audit filename format:**
 ```
 Mahbub_Ul_Alam_Citation_Constellation_Scores_BARON_84.9_HEROCON_85.9_Orcid_0000000211013793_timestamp_20260315_215252_audit_report.json
 ```
-For researchers identified by OpenAlex ID (no ORCID):
-```
-Mahbub_Ul_Alam_Citation_Constellation_Scores_BARON_84.9_HEROCON_85.9_OpenAlex_A5100390903_timestamp_20260315_215252_audit_report.json
-```
-No academic titles (Dr., Prof.) in the filename — just the name.
 
 ---
 
-### Tab 2: Visualize Existing Reports
+### Tab 2: View Existing Audits
 
-Upload previously generated BARON/HEROCON audit JSON files for visualization and comparison. No computation — pure visualization.
+Upload previously generated audit JSON files for visualization and comparison. No computation — pure visualization.
 
-#### Single File Upload
+**Single file** → Full visualization suite (same as Tab 1 results).
 
-Upload one `.json` audit report → get the full visualization suite (same as Tab 1 results): score summary, donut chart, classification table, co-author graph, trajectory.
+**Multiple files** → Comparison view:
+- Comparison table (side-by-side scores, gap, reliability, self-cite %, external %)
+- Overlaid BARON trajectory chart
+- Overlaid HEROCON trajectory chart
+- Expandable individual reports for each researcher
 
-#### Multiple File Upload
+Up to 115 simultaneous comparisons supported. Files are validated against the expected schema; invalid files are rejected with clear messages.
 
-Upload 2–5 `.json` files → get a **comparison view**:
-
-**Comparison Table** — Side-by-side: Researcher, ORCID, Works, Citations, BARON, HEROCON, Gap, Reliability, Data Quality, Self-cite %, External %.
-
-**Overlaid Trajectory** — All researchers' BARON scores on one chart with different colors. Quickly see who has growing vs. declining external reach.
-
-**Individual Reports** — Expandable accordion for each researcher with their full individual visualizations (donut, graph, trajectory).
-
-#### Accepted Files
-
-- Format: JSON audit reports generated by citation-constellation (CLI or UI)
-- Max size: 100 MB per file (SciLifeLab Serve limit)
-- The tool validates that uploaded files contain the expected `score` and `researcher` fields
+**Note:** The trajectory chart requires the `--trajectory` flag during CLI generation. All other visualizations work regardless.
 
 ---
 
-### Tab 3: About
+---
 
-Background information: what the scores mean, what they don't mean, detection phases, data sources, naming etymology, source code links, and paper reference.
+## Demo
+
+### Ethical Notice
+
+Every analysis output begins with a prominent ethical disclaimer, reinforcing that BARON and HEROCON measure citation network structure, not research quality, impact, or integrity.
+
+![Ethical notice displayed at the top of every analysis output.](assets/ethical-note.png)
+
+### Score Panel
+
+The score panel presents BARON and HEROCON scores alongside key summary statistics: total citations, classifiable citations, the BARON–HEROCON gap, and a data quality reliability rating.
+
+![Score panel — Web Interface](assets/score-panel-tool.png)
+
+![Score panel — Command Line Interface](assets/score-panel-tool-cli.png)
+
+### Classification Breakdown
+
+The donut chart provides a proportional breakdown of citation origins across all classification categories, with BARON and HEROCON scores displayed in the center.
+
+![Classification breakdown donut chart](assets/classification-breakdown.png)
+
+### Classification Summary
+
+Each citation category with its count, percentage of classifiable citations, and the HEROCON weight applied.
+
+![Classification summary — Web Interface](assets/classification-summary.png)
+
+![Classification summary — Command Line Interface](assets/classification-summary-cli.png)
+
+### Co-Author Network Graph
+
+Interactive force-directed network. The target researcher appears as a gold node, direct co-authors in crimson (sized by shared publications), and transitive co-authors in blue. Hover any node for details. Networks exceeding 150 nodes are automatically pruned.
+
+![Co-author network graph (overview)](assets/co-author-network.png)
+
+![Co-author network graph (detail)](assets/co-author-network2.png)
+
+### Career Trajectory
+
+Cumulative BARON and HEROCON scores over time as dual lines, with a shaded region representing the gap. Stacked bars beneath show annual citation volume.
+
+![Career trajectory — Web Interface](assets/career-trajectory.png)
+
+![Career trajectory — Command Line Interface](assets/career-trajectory-cli.png)
+
+### Citation Table
+
+Every individual citation with its classification, confidence level, detection phase, and a human-readable rationale. This is the audit trail made visible — any classification can be inspected and contested.
+
+![Full citation table from the audit trail](assets/citation-table.png)
+
+### Comparison View
+
+Side-by-side structural analysis of multiple researchers from uploaded audit files. Researcher names below are anonymized.
+
+![Comparison table](assets/comparison-table.png)
+
+![BARON trajectory comparison](assets/baron-trajectory-comparison.png)
+
+![HEROCON trajectory comparison](assets/herocon-trajectory-comparison.png)
+
+![Individual reports within the comparison view](assets/individual-reports.png)
 
 ---
 
 ## Input Validation
-
-The UI validates all inputs before running:
 
 | Input | Validation |
 |-------|-----------|
@@ -132,89 +173,57 @@ The UI validates all inputs before running:
 | OpenAlex ID | Must match `A` followed by 3–15 digits |
 | Since Year | Integer, 1900–current year |
 | Depth | Must be 1, 2, or 3 |
-| Custom Weights | Must be valid JSON with numeric values |
+| Custom Weights | Valid JSON with numeric values |
 
-Validation errors are shown as clear, actionable messages — never raw stack traces. For example:
-- *"Invalid ORCID format. Expected: 0000-0000-0000-0000 (four groups of four digits separated by hyphens, last character may be X)."*
-- *"ORCID checksum failed for '0000-0000-0000-0001'. Please double-check the ID — one or more digits may be wrong."*
+Errors are shown as clear, actionable messages — never raw stack traces.
 
 ---
 
 ## Rate Limiting
 
-To protect the OpenAlex API and ensure fair usage:
-
-- **10 analyses per hour** per session (configurable via `RATE_LIMIT_MAX` environment variable)
-- Applies to Tab 1 only — Tab 2 (visualization) has no limit
-- The remaining run count is displayed below the Run button
-- When the limit is reached: *"Rate limit reached (10 analyses per hour). Please try again in ~X minute(s)."*
+- **10 analyses per hour** per session (configurable via `RATE_LIMIT_MAX`)
+- Applies to Run Analysis only — View Existing Audits has no limit
+- Remaining run count displayed below the Run button
 
 ---
 
 ## Error Handling
 
-All errors are caught and displayed as user-friendly messages:
-
-| Error Type | What You See |
-|-----------|-------------|
-| Invalid input | ⚠️ Validation Error: [specific guidance] |
-| Network failure | ❌ Analysis failed: [brief explanation]. Please check the identifier and try again. |
-| Invalid JSON upload | ❌ File X: Does not appear to be a BARON/HEROCON audit report |
-| Rate limit | ⚠️ Rate limit reached. Please try again in ~X minute(s). |
-| Unexpected error | ❌ Unexpected error: [truncated message]. Please try again or report this issue. |
-
-No raw Python tracebacks are ever shown to the user.
+| Error Type | User sees |
+|-----------|-----------|
+| Invalid input | Validation error with specific guidance |
+| Network failure | Brief explanation with retry suggestion |
+| Invalid JSON upload | File rejected with reason |
+| Rate limit | Wait time shown |
+| Unexpected error | Truncated message, no raw traceback |
 
 ---
 
-## Deployment on SciLifeLab Serve
+## Running Locally
 
-### Build the Docker image
+### Python (simplest)
+
+```bash
+cd citation-constellation/
+pip install -r app/requirements.txt
+python app/main.py
+# Open http://localhost:7860
+```
+
+### Docker from Source
 
 ```bash
 cd citation-constellation
 docker build --platform linux/amd64 -t citation-constellation:v0.3 .
-```
-
-### Test locally
-
-```bash
 docker run --rm -it -p 7860:7860 citation-constellation:v0.3
-# Open http://localhost:7860
 ```
 
-### Push to registry
+### Prebuilt Image
 
 ```bash
-# DockerHub
-docker tag citation-constellation:v0.3 yourusername/citation-constellation:v0.3
-docker push yourusername/citation-constellation:v0.3
-
-# Or GitHub Container Registry (via GitHub Actions — see .github/workflows/)
+docker pull mahbub1969/citation-constellation:v1
+docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v1
 ```
-
-### Deploy on Serve
-
-1. Log in to [serve.scilifelab.se](https://serve.scilifelab.se)
-2. Create or open a project
-3. Create a **Gradio app** with:
-   - **Name:** BARON & HEROCON
-   - **Port:** 7860
-   - **Image:** `yourusername/citation-constellation:v0.3`
-   - **Permissions:** Public (or Link for pre-publication review)
-
-### SciLifeLab Serve constraints
-
-| Constraint | How we comply |
-|-----------|--------------|
-| Non-root user, uid 1000 | `useradd -m -u 1000 appuser` in Dockerfile |
-| Port 3000–9999 | Using 7860 (Gradio default) |
-| Default 2 vCPU / 4 GB RAM | Sufficient for Phase 1–3 analysis |
-| No user databases | No persistent state — resets on restart |
-| No sensitive data | Only public bibliometric data |
-| Upload limit 100 MB | Documented in UI |
-| Public code required | MIT licensed on GitHub |
-| Unique image tags | Use version tags (v0.3, v0.3.1, etc.) |
 
 ---
 
@@ -222,33 +231,45 @@ docker push yourusername/citation-constellation:v0.3
 
 ```
 app/
-├── main.py                  # Gradio app entry point
-├── README.md                # This file
-├── runner.py                # Async pipeline runner (thread-safe)
+├── main.py                      # Gradio app entry point
+├── README.md                    # This file
+├── runner.py                    # Async pipeline runner (thread-safe)
 ├── tabs/
 │   ├── __init__.py
-│   ├── run_analysis.py      # Tab 1: Run new analysis
-│   └── visualize.py         # Tab 2: Upload & compare JSON files
+│   ├── run_analysis.py          # Tab 1: Run new analysis
+│   ├── visualize.py             # Tab 2: Upload & compare JSON files
+│   ├── BARON_and_HEROCON.py     # Tab 4: How BARON & HEROCON Work
+│   ├── FUTURE_FEATURES.py       # Tab 5: Roadmap
+│   └── HOW_TO_RUN.py            # Tab 3: Installation & usage guide
 ├── components/
 │   ├── __init__.py
-│   ├── coauthor_graph.py    # Interactive force-directed network (plotly)
-│   ├── trajectory_chart.py  # BARON/HEROCON career trajectory (plotly)
-│   ├── score_panel.py       # Score donut chart + summary
+│   ├── coauthor_graph.py        # Interactive force-directed network (plotly)
+│   ├── trajectory_chart.py      # BARON/HEROCON career trajectory (plotly)
+│   ├── score_panel.py           # Score donut chart + summary
 │   ├── classification_table.py  # Sortable citation table
-│   └── comparison.py        # Multi-researcher comparison
-├── validation.py            # ORCID/OpenAlex format validation
-├── rate_limiter.py          # In-memory rate limiting
-├── confirmation.py          # Paper discard confirmation workflow
-├── branding.py              # Logo, footer, disclaimers, repo links
+│   └── comparison.py            # Multi-researcher comparison
+├── validation.py                # ORCID/OpenAlex format validation
+├── rate_limiter.py              # In-memory rate limiting
+├── confirmation.py              # Paper discard confirmation workflow
+├── branding.py                  # Logo, footer, disclaimers, repo links
 └── assets/
-    ├── logo_placeholder.png
-    ├── favicon_placeholder.ico
-    └── cover_placeholder.png
+    ├── cover-full.png
+    ├── ethical-note.png
+    ├── score-panel-tool.png
+    ├── classification-breakdown.png
+    ├── co-author-network.png
+    ├── career-trajectory.png
+    ├── citation-table.png
+    ├── comparison-table.png
+    ├── baron-trajectory-comparison.png
+    ├── herocon-trajectory-comparison.png
+    ├── individual-reports.png
+    └── phased-architecture.png
 ```
 
 ### Component Design
 
-Each visualization component is a standalone module that accepts a parsed JSON audit dict and returns a plotly Figure or pandas DataFrame. This makes them reusable:
+Each visualization component is a standalone module that accepts a parsed JSON audit dict and returns a plotly Figure or pandas DataFrame:
 
 ```python
 from app.components.coauthor_graph import build_coauthor_graph
@@ -259,21 +280,23 @@ from app.components.score_panel import build_score_donut
 fig = build_coauthor_graph(audit_data)
 ```
 
-### Why runner.py exists
+### Why runner.py Exists
 
-Gradio runs its own asyncio event loop internally. The Phase 1–3 pipeline uses `async/await` with httpx for OpenAlex API calls. Calling `asyncio.run()` inside a Gradio callback fails silently (the event loop is already running) or requires multiple button clicks to trigger.
+Gradio runs its own asyncio event loop internally. The Phase 1–3 pipeline uses `async/await` with httpx for OpenAlex API calls. Calling `asyncio.run()` inside a Gradio callback fails (the event loop is already running).
 
-`runner.py` solves this by executing the async pipeline in a **separate thread with its own event loop** via `concurrent.futures.ThreadPoolExecutor`. This makes the "Run Analysis" button work reliably on first click.
+`runner.py` solves this by executing the async pipeline in a **separate thread with its own event loop** via `concurrent.futures.ThreadPoolExecutor`. This makes the Run Analysis button work reliably on first click.
 
-### Performance Notes
+---
 
-**Where time is spent:** ~95% of the processing time is OpenAlex API calls (fetching citing works for each publication). For a researcher with ~80 papers and ~1500 citations, expect 30–90 seconds. The visualizations (plotly + networkx) render in under 1 second.
+## Performance
 
-**Large co-author networks:** Networks with 500+ nodes are automatically pruned to the top 150 by co-authorship strength. Target researcher and all direct co-authors are always kept; transitive co-authors are ranked and trimmed. A subtitle note shows "showing top 150/523 nodes" when pruning occurs.
+**Where time is spent:** ~95% is OpenAlex API calls (fetching citing works for each publication). For ~80 papers and ~1,500 citations, expect 30–90 seconds. Visualizations render in under 1 second.
 
-**Graph layout algorithm:** Networks under 80 nodes use spring layout (prettier, slower). Larger networks use Kamada-Kawai layout (faster, still good). This keeps graph rendering under 500ms regardless of size.
+**Large co-author networks:** Networks with 500+ nodes are auto-pruned to the top 150 by co-authorship strength. Target researcher and all direct co-authors are always kept. A subtitle shows "showing top 150/523 nodes" when pruning occurs.
 
-**Progress feedback:** Gradio's built-in progress bar shows status during the analysis: "Resolving researcher profile...", "Fetching publications from OpenAlex (this may take 30–90 seconds)...", "Building visualizations...", "Done!"
+**Graph layout:** Networks under 80 nodes use spring layout (prettier). Larger networks use Kamada-Kawai (faster). Graph rendering stays under 500ms regardless of size.
+
+**Progress feedback:** Status updates throughout: "Resolving researcher profile...", "Fetching publications from OpenAlex...", "Building visualizations...", "Done!"
 
 ---
 
@@ -282,56 +305,68 @@ Gradio runs its own asyncio event loop internally. The Phase 1–3 pipeline uses
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `RATE_LIMIT_MAX` | `10` | Max analysis runs per hour per session |
-| `GRADIO_TEMP_DIR` | `/home/appuser/app/temp/` | Directory for temporary upload files |
+| `GRADIO_TEMP_DIR` | `/home/appuser/app/temp/` | Temporary upload directory |
 | `GRADIO_SERVER_NAME` | `0.0.0.0` | Server bind address |
 
 ---
 
-## What the Scores Mean — Quick Reference
+## Quick Score Reference
 
-| Score | What it measures | Higher means |
-|-------|-----------------|-------------|
+| Score | Measures | Higher means |
+|-------|----------|-------------|
 | **BARON** | % of citations from completely outside your network | More external reach |
-| **HEROCON** | Weighted % giving partial credit to in-group | More total weighted reach |
+| **HEROCON** | Weighted %, partial credit for in-group | More total weighted reach |
 | **Gap** | HEROCON − BARON | More inner-circle dependence |
 
-| Classification | Detected by | BARON | HEROCON |
-|---------------|-------------|-------|---------|
-| Self | Phase 1 | 0 | 0.0 |
-| Direct co-author | Phase 2 | 0 | 0.2 |
-| Transitive co-author | Phase 2 | 0 | 0.5 |
-| Same department | Phase 3 | 0 | 0.1 |
-| Same institution | Phase 3 | 0 | 0.4 |
-| Same parent org | Phase 3 | 0 | 0.7 |
-| External | — | 1 | 1.0 |
-| Unknown | — | excluded | excluded |
+| Classification | Phase | BARON | HEROCON Weight |
+|---------------|-------|-------|----------------|
+| SELF | 1 | 0 | 0.0 |
+| DIRECT_COAUTHOR | 2 | 0 | 0.2 |
+| TRANSITIVE_COAUTHOR | 2 | 0 | 0.5 |
+| SAME_DEPT | 3 | 0 | 0.1 |
+| SAME_INSTITUTION | 3 | 0 | 0.4 |
+| SAME_PARENT_ORG | 3 | 0 | 0.7 |
+| EXTERNAL | — | 1 | 1.0 |
+| UNKNOWN | — | excluded | excluded |
 
 ---
 
-## Naming
+## Part of the Citation-Cosmograph Ecosystem
 
-**BARON** — from the *Marcher Baron*, the feudal lord charged with securing the outer boundaries of a realm. The BARON score anchors citation integrity by measuring only boundary-spanning outreach.
+| Component | Purpose | Link |
+|-----------|---------|------|
+| **Citation-Constellation** | BARON & HEROCON scoring | [Live Tool](https://citation-constellation.serve.scilifelab.se) · [Source](https://github.com/citation-cosmograph/citation-constellation) |
+| **Citation-Pulsar-Helm** | LLM inference on Kubernetes | [Source](https://github.com/citation-cosmograph/citation-pulsar-helm) |
+| **Citation-Astrolabe** | Venue governance database | [Source](https://github.com/citation-cosmograph/citation-astrolabe) |
 
-**HEROCON** — from the constellation *Hercules*, placed among the stars as a monument to labors transcending mortal limits. Its brightest star *Rasalgethi* (Arabic: *ra's al-jāthī*, "the kneeler's head") reminds us that scholarly leadership requires humility.
-
-> Ridpath, I. (2018). *Star Tales* (revised and expanded edition). Lutterworth Press.
+[github.com/citation-cosmograph](https://github.com/citation-cosmograph)
 
 ---
 
-## Part of the Citation Constellation Ecosystem
+## Paper
 
+**"Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores"**
+
+Mahbub Ul Alam. SciLifeLab Data Centre, Uppsala University, Sweden.
+
+The paper is also available embedded within the web tool under the **Full Research Paper** tab.
+
+### BibTeX
+
+```bibtex
+@article{alam2026citation-constellation,
+    title     = {Where Do Your Citations Come From? {Citation-Constellation}: A Free,
+                 Open-Source, No-Code, and Auditable Tool for Citation Network
+                 Decomposition with Complementary {BARON} and {HEROCON} Scores},
+    author    = {Alam, Mahbub Ul},
+    year      = {2026},
+    note      = {Preprint / manuscript. Available at
+                 \url{https://citation-constellation.serve.scilifelab.se}},
+    url       = {https://github.com/citation-cosmograph/citation-constellation}
+}
 ```
-pulsar 🌟 → astrolabe 🔭 → citation-constellation ✨
-(the signal)   (the instrument)   (the map)
-```
 
-| Repo | What | Link |
-|------|------|------|
-| **pulsar-helm** | LLM inference on k8s | [github.com/citation-cosmograph/pulsar-helm](https://github.com/citation-cosmograph/pulsar-helm) |
-| **astrolabe** | Venue governance database | [github.com/citation-cosmograph/astrolabe](https://github.com/citation-cosmograph/astrolabe) |
-| **citation-constellation** | BARON & HEROCON scoring | [github.com/citation-cosmograph/citation-constellation](https://github.com/citation-cosmograph/citation-constellation) |
-
-**Paper:** Alam, M. U. (2026). BARON and HEROCON: Revealing Citation Network Structure Through Multi-Layer Decomposition. *[arXiv: placeholder]*
+*(BibTeX entry will be updated with DOI and venue details upon publication.)*
 
 ---
 
