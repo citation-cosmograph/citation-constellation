@@ -57,6 +57,7 @@ from models import (
     ScoreBreakdown, ScoreResult,
     HEROCON_WEIGHTS, compute_herocon_score, load_herocon_weights, DISCLAIMER,
     parse_author, parse_work, parse_work_authors,
+    format_elapsed,
 )
 from client import OpenAlexClient, RORClient
 from orcid_validate import OrcidValidator
@@ -1100,7 +1101,7 @@ class Phase3Pipeline:
                 "institutions_fetched": len(hierarchy.institutions),
                 "reference_coverage": f"{ref_coverage:.1f}%",
                 "api_calls": api_calls,
-                "time_elapsed": f"{elapsed:.1f}s",
+                "time_elapsed": format_elapsed(elapsed),
                 "affiliation_stats": affiliation_stats,
             },
         )

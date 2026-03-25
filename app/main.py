@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import gradio as gr
 from branding import (
-    APP_FULL_TITLE, HEADER_HTML, FOOTER_HTML,
-    CUSTOM_CSS, FAVICON_PATH, LOGO_PATH, SCORE_INTRO_CARD, ETHICAL_NOTICE
+    APP_FULL_TITLE, FOOTER_HTML,
+    CUSTOM_CSS, FAVICON_PATH, SCORE_INTRO_CARD
 )
 from tabs import run_analysis, visualize
 from tabs.BARON_and_HEROCON import BARON_and_HEROCON
@@ -35,21 +35,9 @@ def create_app() -> gr.Blocks:
         title=APP_FULL_TITLE,
     ) as app:
         
-        # logo
-        #gr.Image(LOGO_PATH, show_label=False, container=False, buttons=None)
         
         gr.HTML(SCORE_INTRO_CARD, container=False)
         
-        #gr.HTML(ETHICAL_NOTICE)
-        
-                
-        # ── Ethical disclaimer (non-dismissable) ──
-        # gr.Markdown(ETHICAL_DISCLAIMER, elem_classes=["disclaimer-banner"], container=False)
-        
-         # ── Header ──
-        # gr.HTML(HEADER_HTML)
-        
-
         # ── Tabs ──
         with gr.Tabs():
             with gr.Tab("🔍 Run Analysis"):
@@ -71,9 +59,6 @@ def create_app() -> gr.Blocks:
             with gr.Tab("📄 Full Research Paper"):
                 gr.Markdown(RESEARCH_PAPER)
                 
-            
-                
-
         # ── Footer ──
         gr.HTML(FOOTER_HTML)
 
@@ -84,15 +69,7 @@ def create_app() -> gr.Blocks:
 # Entry Point
 # ============================================================
 
-#from pathlib import Path
-
-# 1. Get the absolute path of the directory where main.py sits
-# This ensures it works regardless of where you run the 'gradio' command from
-#current_file_path = Path(__file__).resolve()
-#assets_dir = current_file_path.parent / "assets"
-
-# 2. Register the absolute path as a static directory
-#gr.set_static_paths(paths=[str(assets_dir)])
+# 1. Register a static directory
 gr.set_static_paths("app/assets/")
 
 
@@ -104,7 +81,6 @@ if __name__ == "__main__":
         share=False,
         favicon_path=FAVICON_PATH if os.path.exists(FAVICON_PATH) else None,
         css=CUSTOM_CSS,
-        #theme=gr.themes.Monochrome(),
         #theme=gr.themes.Base()
         #theme=gr.themes.Default()
         #theme=gr.themes.Glass()

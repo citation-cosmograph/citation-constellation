@@ -10,8 +10,6 @@ CLI mode: prints numbered list, accepts "1-5,8,12" or "all" or "none"
 UI mode: returns structured data for Gradio checkbox rendering
 """
 
-from typing import Optional
-
 
 def format_flagged_works_for_display(flagged_works: list[dict]) -> list[dict]:
     """

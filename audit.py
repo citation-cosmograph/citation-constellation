@@ -21,13 +21,11 @@ Filename format (example):
 
 import json
 import os
-from dataclasses import asdict
 from datetime import datetime
-from typing import Optional
 
 from models import (
     Researcher, Work, Citation, CitationClassification,
-    CoAuthorEdge, ScoreBreakdown, ScoreResult, DISCLAIMER,
+    ScoreResult, DISCLAIMER,
 )
 
 

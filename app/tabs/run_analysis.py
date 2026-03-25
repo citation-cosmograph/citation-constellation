@@ -13,13 +13,11 @@ When unchecked:
 
 import json
 import time
-from typing import Optional
-
 import gradio as gr
 
 from app.validation import validate_identifier, validate_since_year, validate_depth
 from app.rate_limiter import limiter
-from app.runner import run_pipeline_sync, validate_works_sync
+from app.runner import run_pipeline_sync, validate_works_sync, estimate_time_human, format_elapsed
 from app.branding import (
     IDENTIFIER_HELP, SINCE_HELP, DEPTH_HELP, CONFIRM_HELP, WEIGHTS_HELP,
     DISCLAIMER_SHORT,
@@ -52,8 +50,8 @@ def _render_results(audit_data: dict, filepath: str, pipeline_elapsed: float) ->
 
     return {
         "status": (
-            f"✅ Done — data fetched in **{pipeline_elapsed:.0f}s**, "
-            f"visualizations rendered in **{render_elapsed:.1f}s**."
+            f"✅ Done — data fetched in **{format_elapsed(pipeline_elapsed)}**, "
+            f"visualizations rendered in **{format_elapsed(render_elapsed)}**."
         ),
         "summary_md": summary_md,
         "summary_df": summary_df,
@@ -113,6 +111,18 @@ def build_tab():
         run_btn = gr.Button("🔍 Run Analysis", variant="primary", size="lg")
         rate_display = gr.Markdown(
             value=f"*{limiter.remaining('default')} analysis runs remaining this hour.*"
+        )
+        gr.Markdown(
+            "💡 **Tip for large profiles:** If the researcher has a high citation count "
+            "(4,000+) or many publications (200+), the web app may time out — the analysis "
+            "time scales with both citation volume *and* co-author network size (more publications "
+            "= larger network to traverse). In these cases, running via the **CLI** is more "
+            "reliable: it has no timeout limits and gives real-time progress feedback. "
+            "Remember to include the `--trajectory` or `-t` flag so the career trajectory "
+            "chart is available when you visualize the results.\n\n"
+            "You can then upload the generated audit JSON in the **📊 View Existing Audits** "
+            "tab for full interactive visualization. See the **💻 How to Run Here & Install "
+            "Locally** tab for CLI setup and usage instructions."
         )
 
         # ── Status ──
@@ -359,6 +369,8 @@ def build_tab():
 
                 flagged = val_result.get("flagged_works", [])
                 since_excluded = val_result.get("since_excluded_works", [])
+                cited_by_count = val_result.get("cited_by_count", 0)
+                time_estimate = estimate_time_human(cited_by_count)
 
                 if not flagged and not since_excluded:
                     # ── Nothing to review — run full pipeline directly ──
@@ -366,8 +378,9 @@ def build_tab():
                         status_msg=(
                             "✅ **No flagged works** — all works passed ORCID validation.\n\n"
                             "🔄 **Now running full analysis...**\n\n"
-                            "Fetching citations and classifying. "
-                            "This typically takes **1–4 minutes**. "
+                            f"Fetching citations and classifying "
+                            f"(~{cited_by_count:,} citations). "
+                            f"Estimated time: **{time_estimate}**. "
                             "Please wait — do not close this tab."
                         ),
                         status_visible=True,
@@ -380,6 +393,7 @@ def build_tab():
                             since_year=params["since_val"],
                             depth=params["depth"],
                             herocon_weights=params["herocon_weights"],
+                            estimated_citations=cited_by_count,
                         )
                     except Exception as e:
                         yield _make_output(
@@ -419,11 +433,13 @@ def build_tab():
 
                 confirm_md = (
                     f"Found **{val_result['total_works']}** works for "
-                    f"**{val_result['researcher_name']}**.\n\n"
+                    f"**{val_result['researcher_name']}** "
+                    f"(~{cited_by_count:,} total citations).\n\n"
                     f"**{len(flagged)} work(s) flagged** as potential misattributions. "
                     f"Uncheck any works you want to **keep** in the analysis. "
                     f"Checked works will be excluded from scoring.\n\n"
-                    f"When ready, click **Confirm & Run Full Analysis** below."
+                    f"When ready, click **Confirm & Run Full Analysis** below. "
+                    f"The full analysis will take approximately **{time_estimate}**."
                 )
 
                 state = {
@@ -431,6 +447,7 @@ def build_tab():
                     "since_val": params["since_val"],
                     "depth": params["depth"],
                     "herocon_weights": params["herocon_weights"],
+                    "cited_by_count": cited_by_count,
                     "since_excluded_ids": {
                         ew.get("openalex_id", "") for ew in since_excluded
                     },
@@ -439,7 +456,7 @@ def build_tab():
                 yield _make_output(
                     status_msg=(
                         f"🔍 **Validation complete** for **{val_result['researcher_name']}** "
-                        f"({val_result['total_works']} works).\n\n"
+                        f"({val_result['total_works']} works, ~{cited_by_count:,} citations).\n\n"
                         "Review the flagged works below, then confirm to run the full analysis."
                     ),
                     status_visible=True,
@@ -459,7 +476,9 @@ def build_tab():
                     status_msg=(
                         "🔄 **Analysis in progress...**\n\n"
                         "Fetching publications and citations from OpenAlex. "
-                        "This typically takes **1–4 minutes** depending on the number of publications. "
+                        "Duration depends on the number of publications and citations — "
+                        "small profiles finish in **1–3 minutes**, while large profiles "
+                        "(2000+ citations) may take **10–30 minutes**. "
                         "Please wait — do not close this tab."
                     ),
                     status_visible=True,
@@ -477,7 +496,8 @@ def build_tab():
                     yield _make_output(
                         status_msg=(
                             f"❌ **Analysis failed:** {str(e)[:300]}. "
-                            "This may be due to a network issue with OpenAlex or an invalid identifier. "
+                            "This may be due to a network issue with OpenAlex, "
+                            "an invalid identifier, or a timeout for very large profiles. "
                             "Please check and try again."
                         ),
                         status_visible=True,
@@ -503,13 +523,16 @@ def build_tab():
                 return
 
             exclude_set = set(excluded_ids or [])
+            cited_by_count = state.get("cited_by_count", 0)
+            time_estimate = estimate_time_human(cited_by_count)
 
             yield _make_output(
                 status_msg=(
                     f"🔄 **Running full analysis** with your selections "
                     f"(excluding {len(exclude_set)} flagged work(s))...\n\n"
-                    "Fetching citations and classifying. "
-                    "This typically takes **1–4 minutes**. "
+                    f"Fetching citations and classifying "
+                    f"(~{cited_by_count:,} citations). "
+                    f"Estimated time: **{time_estimate}**. "
                     "Please wait — do not close this tab."
                 ),
                 status_visible=True,
@@ -524,6 +547,7 @@ def build_tab():
                     depth=state["depth"],
                     herocon_weights=state["herocon_weights"],
                     exclude_work_ids=exclude_set if exclude_set else None,
+                    estimated_citations=cited_by_count,
                 )
             except Exception as e:
                 yield _make_output(

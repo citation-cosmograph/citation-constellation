@@ -382,6 +382,32 @@ DISCLAIMER = (
     "decisions. See the audit trail for full classification details."
 )
 
+# ============================================================
+# Time Formatting Helper
+# ============================================================
+
+def format_elapsed(seconds: float) -> str:
+    """
+    Format elapsed seconds into a human-readable string.
+
+    Used in audit trails, CLI output, and Gradio status messages
+    so users never see raw seconds like "270.3s".
+
+    Examples:
+        42.3   → "42s"
+        127.5  → "2m 8s"
+        270.0  → "4m 30s"
+        3672.1 → "1h 1m 12s"
+    """
+    total = int(seconds)
+    if total < 60:
+        return f"{total}s"
+    hours, remainder = divmod(total, 3600)
+    minutes, secs = divmod(remainder, 60)
+    if hours > 0:
+        return f"{hours}h {minutes}m {secs}s"
+    return f"{minutes}m {secs}s"
+
 
 @dataclass
 class ScoreResult:

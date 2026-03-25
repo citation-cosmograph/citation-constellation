@@ -48,6 +48,7 @@ from models import (
     Researcher, Work, Citation, CitationClassification,
     ScoreBreakdown, ScoreResult, DISCLAIMER,
     parse_author, parse_work, parse_work_authors,
+    format_elapsed,
 )
 from client import OpenAlexClient
 from audit import AuditLog
@@ -347,7 +348,7 @@ class Phase1Pipeline:
                 "citation_links": len(self.citations),
                 "reference_coverage": f"{ref_coverage:.1f}%",
                 "api_calls": api_calls,
-                "time_elapsed": f"{elapsed:.1f}s",
+                "time_elapsed": format_elapsed(elapsed),
             },
         )
 

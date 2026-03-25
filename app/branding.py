@@ -8,16 +8,15 @@ Branding constants, ethical disclaimers, and UI text for the Gradio app.
 # App Identity
 # ============================================================
 
-APP_TITLE = "Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores"
-APP_SUBTITLE = "An open-source, no-code tool for multi-phase citation network decomposition; fully auditable with downloadable data, ready to install locally"
+APP_TITLE = "Where Do Your Citations Come From?"
+APP_SUBTITLE = "Try This Citation-Constellation Tool!"
 APP_VERSION = "v0.3"
-APP_FULL_TITLE = f"{APP_TITLE} — {APP_SUBTITLE}"
+APP_FULL_TITLE = f"{APP_TITLE}  {APP_SUBTITLE}"
 
 # ============================================================
 # Ethical Disclaimer (non-dismissable, shown prominently)
 # ============================================================
 
-# <div style="font-size: 4rem; margin-bottom: 15px; letter-spacing: 8px;">✋ 🛑 🙏</div>
 
 ETHICAL_NOTICE = """
 <div style="background-color: #F0F7F4; border: 2px solid #5A8F7B; border-radius: 12px; padding: 30px; margin: 20px 0; text-align: center; max-width: 100%;">
@@ -97,61 +96,6 @@ SCORE_INTRO_CARD = f"""
 </div>
 """
 
-SCORE_INTRO_CARDz = f"""
-<div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 20px; border-radius: 16px; font-family: sans-serif; width: 100%; margin: 0 auto;">
-  
-            
-  
-  <div style="background: linear-gradient(90deg, rgba(212, 175, 55, 0.2) 0%, rgba(147, 112, 219, 0.2) 100%); padding: 20px; text-align: center; border-radius: 12px 12px 0 0; border: 1px solid rgba(255,255,255,0.1); border-bottom: none;">
-    <h2 style="color: #f4e4c1; margin: 0; font-size: 3rem; letter-spacing: 2px;">Citation-Constellation</h2>
-    <div style="color: rgba(244, 228, 193, 0.7); font-size: 1rem; margin-top: 4px;">A citation network analysis tool featuring two novel, complementary bibliometric scores</div>
-  </div>
-  
-  <div style="display: flex; justify-content: center; width: 100%; padding-bottom: 20px;">
-    <img src="/gradio_api/file={LOGO_PATH}" alt="Logo" style="display: block; margin: 0 auto; max-width: 100%; height: auto; width: 30%; border-radius: 8px;">
-  </div>
-  
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid rgba(255,255,255,0.1); border-radius: 0 0 12px 12px; overflow: hidden;">
-    
-    <div style="padding: 35px; background: linear-gradient(180deg, rgba(212, 175, 55, 0.05) 0%, transparent 100%); border-right: 1px solid rgba(255,255,255,0.05);">
-      <div style="display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 1rem; font-weight: 600; letter-spacing: 1px; color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.3); margin-bottom: 15px;">Binary & Absolute</div>
-      <div style="font-size: 2.4rem; font-weight: 700; color: #d4af37; margin-bottom: 8px; text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);">BARON</div>
-      <div style="font-size: 1.5rem; font-weight: 600; letter-spacing: 1.5px; color: #d4af37; margin-bottom: 18px; line-height: 1.4;">Boundary-Anchored Research Outreach Network Score</div>
-      <div style="color: rgba(255,255,255,0.75); font-size: 1.05rem; line-height: 1.6; font-style: italic; padding: 0 5px;">The Boundary-Anchored Research Outreach Network (BARON) score is inspired by the historical Marcher Barons, who secured and governed a realm's outer borders. Acting as the frontier guard of a researcher's citation profile, it deliberately filters out the natural amplification of local networks, such as co-authors and institutional peers. Instead, it anchors the maximum reach of a scholar's metrics by measuring strictly boundary-spanning, external citations. By establishing this foundational threshold of strict external outreach, the BARON score provides the crucial external validation required to give the broader HEROCON score its constellation shape.</div>
-    </div>
-    
-    <div style="padding: 35px; background: linear-gradient(180deg, rgba(147, 112, 219, 0.05) 0%, transparent 100%);">
-      <div style="display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 1rem; font-weight: 600; letter-spacing: 1px; color: #9370db; border: 1px solid rgba(147, 112, 219, 0.3); margin-bottom: 15px;">Weighted & Holistic</div>
-      <div style="font-size: 2.4rem; font-weight: 700; color: #9370db; margin-bottom: 8px; text-shadow: 0 0 30px rgba(147, 112, 219, 0.3);">HEROCON</div>
-      <div style="font-size: 1.5rem; font-weight: 600; letter-spacing: 1.5px; color: #9370db; margin-bottom: 18px; line-height: 1.4;">Holistic Equilibrated Research Outreach CONstellation Score</div>
-      <div style="color: rgba(255,255,255,0.75); font-size: 1.05rem; line-height: 1.6; font-style: italic; padding: 0 5px;">Named for the CONstellation Hercules, honoring the legendary Greek HERO (HEROCON), this score maps a researcher's total scholarly influence as a constellation. In this metaphor, local collaborations form a dense, bright cluster, much like the constellation's brightest star system, Rasalgethi ("the kneeler's head"), which represents the humility to "kneel" and value one's immediate community. However, an enduring constellation must also stretch across the sky. It relies on the anchoring boundary stars of the BARON score to define its outer limits and give it its legendary shape. Ultimately, a high HEROCON score demonstrates that research scholarship unites a bright local foundation with the vast external outreach that illuminates the broader academic universe.</div>
-    </div>
-    
-  </div>
-  {ETHICAL_NOTICE}
-</div>
-"""
-
-
-
-
-ETHICAL_DISCLAIMER = """
-
-<div style="font-size: 4em; margin-bottom: -10px;"> ✋ 🛑 🙏</div>
-
-## IMPORTANT ETHICAL NOTICE
-
-### **BARON and HEROCON scores DO NOT measure research quality, impact, or integrity.**
-### **BARON and HEROCON scores should NOT be used for hiring, promotion, or funding decisions.**
-### **All classification decisions are fully documented in the downloadable audit report. Verify all results before drawing conclusions.**
-"""
-
-DISCLAIMER_SHORT = (
-    "BARON and HEROCON measure citation network structure, not research quality, "
-    "impact, or integrity. They should not be used for hiring, promotion, or funding decisions. "
-    "Every classification decision is documented in the downloadable audit report. "
-    "Verify any result before drawing conclusions."
-)
 
 # ============================================================
 # Input Help Text
@@ -233,7 +177,7 @@ REPO_PULSAR = f"{GITHUB_ORG}/citation-pulsar-helm"
 REPO_ASTROLABE = f"{GITHUB_ORG}/citation-astrolabe"
 
 PAPER_REFERENCE = (
-    "Alam, M. U. (2026). Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores "
+    "Alam, M. U. (2026). Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores "
     " *[arXiv: placeholder]*."
 )
 
@@ -271,29 +215,6 @@ FOOTER_HTML = f"""
     <p style="margin: 12px 0 0 0; font-size: 0.8rem; color: rgba(255,255,255,0.4); font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">
         MIT License
     </p>
-</div>
-"""
-
-FOOTER_HTMLz = f"""
-<div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e7eb; margin-top: 20px; color: #6b7280; font-size: 0.85em;">
-    <p style="margin: 4px 0;">
-        Part of the <a href="{GITHUB_ORG}" target="_blank"><b>citation-cosmograph</b></a> project
-    </p>
-    <p style="margin: 4px 0;">
-        <a href="{REPO_CONSTELLATION}" target="_blank">citation-constellation</a> ✨ ·
-        <a href="{REPO_PULSAR}" target="_blank">pulsar-helm</a> 🌟 ·
-        <a href="{REPO_ASTROLABE}" target="_blank">astrolabe</a> 🔭
-    </p>
-    <p style="margin: 8px 0; font-style: italic;">
-        {PAPER_REFERENCE}
-    </p>
-    <p style="margin: 4px 0;">
-        Hosted on <a href="https://serve.scilifelab.se" target="_blank">SciLifeLab Serve</a> ·
-        Powered by <a href="https://openalex.org" target="_blank">OpenAlex</a>,
-        <a href="https://orcid.org" target="_blank">ORCID</a>,
-        <a href="https://ror.org" target="_blank">ROR</a>
-    </p>
-    <p style="margin: 4px 0;">MIT License</p>
 </div>
 """
 
