@@ -410,7 +410,12 @@ Sensitivity analysis of HEROCON weights, UNKNOWN imputation strategies, ground-t
 ---
 
 ## Phased Implementation Architecture Diagram
-![ Phased Implementation Architecture Diagram](app/assets/phased-architecture.png)
+![Phased Implementation Architecture Diagram](app/assets/phased-architecture.png)
+
+---
+
+## Future Roadmap Diagram
+![Future Roadmap Diagram](app/assets/project-plan.png)
 
 ---
 
