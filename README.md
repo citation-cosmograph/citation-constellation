@@ -427,9 +427,7 @@ Sensitivity analysis of HEROCON weights, UNKNOWN imputation strategies, ground-t
 
 For the full methodology, conceptual foundations, tool landscape comparison, discussion of responsible research assessment alignment, and detailed limitations analysis, see the accompanying research paper:
 
-Alam, M. U. (2026). Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores. <a href="https://arxiv.org/abs/2603.24216" target="_blank" 'style="color: #d4af37; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.3);"> arXiv:2603.24216</a> [cs.DL].
-
-Mahbub Ul Alam. SciLifeLab Data Centre, Uppsala University, Sweden.
+Mahbub Ul Alam. Where do your citations come from? Citation-Constellation: A free, open-source, no-code, and auditable tool for citation network decomposition with complementary BARON and HEROCON scores, 2026. URL: https://arxiv.org/abs/2603.24216, arXiv:2603.24216, doi:10.48550/arXiv.2603.24216.
 
 The paper is also available embedded within the web tool under the **Full Research Paper** tab.
 
@@ -437,7 +435,7 @@ The paper is also available embedded within the web tool under the **Full Resear
 
 ```bibtex
 @misc{alam2026citationconstellation,
-  title={Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores},
+  title={Where Do Your Citations Come From? {C}itation-{C}onstellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary {BARON} and {HEROCON} Scores},
   author={Mahbub Ul Alam},
   year={2026},
   eprint={2603.24216},
@@ -447,9 +445,6 @@ The paper is also available embedded within the web tool under the **Full Resear
   doi={10.48550/arXiv.2603.24216}
 }
 ```
-
-*(BibTeX entry will be updated with DOI and venue details upon publication.)*
-
 ---
 
 ## Acknowledgements
