@@ -5,8 +5,8 @@
 A free, open-source, no-code, and auditable tool for citation network decomposition with complementary BARON and HEROCON scores.
 
 [![Live Tool](https://img.shields.io/badge/Live%20Tool-SciLifeLab%20Serve-gold)](https://citation-constellation.serve.scilifelab.se)
-[![License](https://img.shields.io/badge/License-Open%20Source-green)]()
-[![Python](https://img.shields.io/badge/Python-3.11%2B-blue)]()
+[![License](https://img.shields.io/badge/License-Open%20Source-green)](https://mit-license.org/)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org/downloads/release/python-3110/)
 [![Docker](https://img.shields.io/badge/Docker-Available-blue)](https://hub.docker.com/r/mahbub1969/citation-constellation)
 
 ---
