@@ -423,7 +423,7 @@ Sensitivity analysis of HEROCON weights, UNKNOWN imputation strategies, ground-t
 
 For the full methodology, conceptual foundations, tool landscape comparison, discussion of responsible research assessment alignment, and detailed limitations analysis, see the accompanying research paper:
 
-**"Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores"**
+Alam, M. U. (2026). Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores. <a href="https://arxiv.org/abs/2603.24216" target="_blank" 'style="color: #d4af37; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.3);"> arXiv:2603.24216</a> [cs.DL].
 
 Mahbub Ul Alam. SciLifeLab Data Centre, Uppsala University, Sweden.
 
