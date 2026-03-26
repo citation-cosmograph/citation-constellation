@@ -239,7 +239,7 @@ FOOTER_HTML = f"""
             DOI: <a href="https://doi.org/10.48550/arXiv.2603.24216" target="_blank" style="color: #d4af37; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.3);">10.48550/arXiv.2603.24216</a>
         </p>
         <pre style="margin: 0; font-size: 0.75rem; color: rgba(255,255,255,0.45); font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; white-space: pre-wrap; word-break: break-all; line-height: 1.5; background: none; border: none; padding: 0;">@misc{{alam2026citationconstellation,
-  title={{Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores}},
+  title={{Where Do Your Citations Come From? {{C}}itation-{{C}}onstellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary {{BARON}} and {{HEROCON}} Scores}},
   author={{Mahbub Ul Alam}},
   year={{2026}},
   eprint={{2603.24216}},
