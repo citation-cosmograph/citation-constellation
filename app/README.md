@@ -1,5 +1,10 @@
 # Citation-Constellation — Web Interface
 
+<div style="flex: 0 0 auto; padding: 0 30px; display: flex; align-items: center; justify-content: center;">
+      <img src="app/assets/logo.png" alt="Citation Constellation Logo" style="max-width: 100%; height: auto; border-radius: 12px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); display: block;">
+    </div>
+
+
 **No-Code UI for BARON & HEROCON Citation Network Analysis**
 
 A Gradio-based web interface for computing and visualizing BARON and HEROCON scores. Deployed on [SciLifeLab Serve](https://serve.scilifelab.se) — no installation, registration, or payment required.
@@ -343,30 +348,41 @@ Gradio runs its own asyncio event loop internally. The Phase 1–3 pipeline uses
 
 ---
 
+## Phased Implementation Architecture Diagram
+![Phased Implementation Architecture Diagram](app/assets/phased-architecture.png)
+
+---
+
+## Future Roadmap Diagram
+![Future Roadmap Diagram](app/assets/project-plan.png)
+
+---
+
 ## Paper
 
-**"Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores"**
+For the full methodology, conceptual foundations, tool landscape comparison, discussion of responsible research assessment alignment, and detailed limitations analysis, see the accompanying research paper:
 
-Mahbub Ul Alam. SciLifeLab Data Centre, Uppsala University, Sweden.
+Mahbub Ul Alam. Where do your citations come from? Citation-Constellation: A free, open-source, no-code, and auditable tool for citation network decomposition with complementary BARON and HEROCON scores, 2026. URL: https://arxiv.org/abs/2603.24216, arXiv:2603.24216, doi:10.48550/arXiv.2603.24216.
 
 The paper is also available embedded within the web tool under the **Full Research Paper** tab.
 
 ### BibTeX
 
 ```bibtex
-@article{alam2026citation-constellation,
-    title     = {Where Do Your Citations Come From? {Citation-Constellation}: A Free,
-                 Open-Source, No-Code, and Auditable Tool for Citation Network
-                 Decomposition with Complementary {BARON} and {HEROCON} Scores},
-    author    = {Alam, Mahbub Ul},
-    year      = {2026},
-    note      = {Preprint / manuscript. Available at
-                 \url{https://citation-constellation.serve.scilifelab.se}},
-    url       = {https://github.com/citation-cosmograph/citation-constellation}
+@misc{alam2026citationconstellation,
+  title={Where Do Your Citations Come From? {C}itation-{C}onstellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary {BARON} and {HEROCON} Scores},
+  author={Mahbub Ul Alam},
+  year={2026},
+  eprint={2603.24216},
+  archivePrefix={arXiv},
+  primaryClass={cs.DL},
+  url={https://arxiv.org/abs/2603.24216},
+  doi={10.48550/arXiv.2603.24216}
 }
 ```
+## Acknowledgements
 
-*(BibTeX entry will be updated with DOI and venue details upon publication.)*
+Built on [SciLifeLab Serve](https://serve.scilifelab.se). Powered by [OpenAlex](https://openalex.org), [ORCID](https://orcid.org), and [ROR](https://ror.org).
 
 ---
 
