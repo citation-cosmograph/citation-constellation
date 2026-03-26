@@ -1,7 +1,7 @@
 # Citation-Constellation
 
 <div style="flex: 0 0 auto; padding: 0 30px; display: flex; align-items: center; justify-content: center;">
-      <img src="/gradio_api/file=app/assets/logo.png" alt="Citation Constellation Logo" style="max-width: 100%; height: auto; border-radius: 12px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); display: block;">
+      <img src="app/assets/logo.png" alt="Citation Constellation Logo" style="max-width: 100%; height: auto; border-radius: 12px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); display: block;">
     </div>
 
 **Where Do Your Citations Come From?**
