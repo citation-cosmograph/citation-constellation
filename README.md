@@ -436,15 +436,15 @@ The paper is also available embedded within the web tool under the **Full Resear
 ### BibTeX
 
 ```bibtex
-@article{alam2026citation-constellation,
-    title     = {Where Do Your Citations Come From? {Citation-Constellation}: A Free,
-                 Open-Source, No-Code, and Auditable Tool for Citation Network
-                 Decomposition with Complementary {BARON} and {HEROCON} Scores},
-    author    = {Alam, Mahbub Ul},
-    year      = {2026},
-    note      = {Preprint / manuscript. Available at
-                 \url{https://citation-constellation.serve.scilifelab.se}},
-    url       = {https://github.com/citation-cosmograph/citation-constellation}
+@misc{alam2026citationconstellation,
+  title={Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores},
+  author={Mahbub Ul Alam},
+  year={2026},
+  eprint={2603.24216},
+  archivePrefix={arXiv},
+  primaryClass={cs.DL},
+  url={https://arxiv.org/abs/2603.24216},
+  doi={10.48550/arXiv.2603.24216}
 }
 ```
 
