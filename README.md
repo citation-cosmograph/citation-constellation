@@ -100,7 +100,7 @@ Each phase adds a detection layer. Later phases incorporate all earlier layers.
 
 No installation required. Go to **[citation-constellation.serve.scilifelab.se](https://citation-constellation.serve.scilifelab.se)** and:
 
-1. Enter an ORCID (e.g., `0000-0002-1101-3793`) or OpenAlex ID (e.g., `A0000000000`). Full URLs are accepted.
+1. Enter an ORCID (e.g., `0000-0000-0000-0000`) or OpenAlex ID (e.g., `A0000000000`). Full URLs are accepted.
 2. Optionally set a career start year, adjust co-author graph depth (default: 2), enable manual validation of flagged papers, or upload custom HEROCON weights.
 3. Click **Run Analysis**. Expect 1–4 minutes for ~50–100 publications.
 4. Explore results: score summary, classification donut chart, co-author network graph, career trajectory, full citation table with per-citation rationale.
@@ -118,7 +118,7 @@ cd citation-constellation
 pip install -r requirements.txt
 
 # Full analysis (recommended)
-python phase3.py --orcid 0000-0002-1101-3793 --trajectory
+python phase3.py --orcid 0000-0000-0000-0000 --trajectory
 
 # Also accepts OpenAlex IDs
 python phase3.py --openalex-id A0000000000 --trajectory
@@ -183,7 +183,7 @@ python app/main.py
 
 ```bash
 python phase3.py \
-    --orcid 0000-0002-1101-3793 \
+    --orcid 0000-0000-0000-0000 \
     --since 2010 \
     --depth 2 \
     --trajectory \
@@ -211,7 +211,7 @@ Create a JSON file with any subset of classifications. Unspecified classificatio
 ### Interactive Confirmation Mode
 
 ```bash
-python phase3.py --orcid 0000-0002-1101-3793 --confirm
+python phase3.py --orcid 0000-0000-0000-0000 --confirm
 ```
 
 The tool displays ORCID-flagged works with reasons and prompts for a decision. Input: `all` (exclude all), `none` (keep all), `1,3,5` (exclude specific items), or `1-3,5` (ranges).

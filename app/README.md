@@ -42,7 +42,7 @@ Enter a researcher identifier and get interactive BARON & HEROCON results.
 
 | Field | What to enter | Required? |
 |-------|--------------|-----------|
-| **Researcher Identifier** | ORCID (e.g., `0000-0002-1101-3793`) or OpenAlex ID (e.g., `A5100390903`). Full URLs accepted — the tool extracts the ID automatically. | Yes |
+| **Researcher Identifier** | ORCID (e.g., `0000-0000-0000-0000`) or OpenAlex ID (e.g., `A0000000000`). Full URLs accepted — the tool extracts the ID automatically. | Yes |
 | **Since Year** | Exclude publications before this year. Useful for name collision in OpenAlex. Leave blank to include all works. | No |
 | **Co-author Graph Depth** | Hops of co-authorship counted as in-group. **1:** direct only. **2** (default): co-authors of co-authors. **3:** three hops. | Default: 2 |
 | **Wait for my validation** | Pause after ORCID validation to review flagged papers before scoring. When unchecked, flagged papers are automatically excluded. | Default: off |
