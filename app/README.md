@@ -1,7 +1,7 @@
 # Citation-Constellation — Web Interface
 
 <div style="flex: 0 0 auto; padding: 0 30px; display: flex; align-items: center; justify-content: center;">
-      <img src="app/assets/logo.png" alt="Citation Constellation Logo" style="max-width: 100%; height: auto; border-radius: 12px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); display: block;">
+      <img src="assets/logo.png" alt="Citation Constellation Logo" style="max-width: 100%; height: auto; border-radius: 12px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); display: block;">
     </div>
 
 
@@ -349,12 +349,12 @@ Gradio runs its own asyncio event loop internally. The Phase 1–3 pipeline uses
 ---
 
 ## Phased Implementation Architecture Diagram
-![Phased Implementation Architecture Diagram](app/assets/phased-architecture.png)
+![Phased Implementation Architecture Diagram](assets/phased-architecture.png)
 
 ---
 
 ## Future Roadmap Diagram
-![Future Roadmap Diagram](app/assets/project-plan.png)
+![Future Roadmap Diagram](assets/project-plan.png)
 
 ---
 
