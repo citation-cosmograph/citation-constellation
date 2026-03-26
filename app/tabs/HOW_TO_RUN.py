@@ -9,6 +9,9 @@ HOW_TO_RUN = """
 
 # How to Run Here & Install Locally
 
+
+> 📸 **New here?** See **Section 5** at the bottom for demo screenshots of what the output looks like.
+
 ---
 
 ## 1. Using the Web App
@@ -489,4 +492,120 @@ Citations classified as `UNKNOWN` (insufficient metadata) are excluded from both
 *   **Large gap** (> 10%) → A significant portion of measured impact comes from the researcher's collaborative network. This is neither good nor bad — it simply characterizes the citation structure.
 
 > ⚠️ BARON and HEROCON measure **citation network structure**, not research quality, impact, or integrity. They should **not** be used for hiring, promotion, or funding decisions.
+
+---
+
+## 5. Demo: What the Output Looks Like
+
+Below are screenshots from a real analysis to help you understand each part of the output before you run your own.
+
+### Ethical Notice
+
+Every analysis output begins with a prominent ethical disclaimer, reinforcing that BARON and HEROCON measure citation network structure — not research quality, impact, or integrity.
+
+<img src="/gradio_api/file=app/assets/ethical-note.png" alt="Ethical notice displayed at the top of every analysis output" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Score Panel
+
+The score panel presents BARON and HEROCON scores alongside key summary statistics: total citations, classifiable citations, the BARON–HEROCON gap, and a data quality reliability rating.
+
+**Web Interface**
+
+<img src="/gradio_api/file=app/assets/score-panel-tool.png" alt="Score panel — Web Interface" style="max-width: 100%; height: auto; display: block;">
+
+**Command Line Interface**
+
+<img src="/gradio_api/file=app/assets/score-panel-tool-cli.png" alt="Score panel — Command Line Interface" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Classification Breakdown Donut Chart
+
+A proportional breakdown of citation origins across all classification categories, with BARON and HEROCON scores displayed in the center.
+
+<img src="/gradio_api/file=app/assets/classification-breakdown.png" alt="Classification breakdown donut chart" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Co-Author Network Graph
+
+The interactive co-author network graph renders the target researcher as a gold node, direct co-authors in crimson (sized by shared publications), and transitive co-authors in blue. Hover over any node for details. Networks exceeding 150 nodes are automatically pruned.
+
+<img src="/gradio_api/file=app/assets/co-author-network.png" alt="Co-author network graph (overview)" style="max-width: 100%; height: auto; display: block;">
+
+<img src="/gradio_api/file=app/assets/co-author-network2.png" alt="Co-author network graph (detail)" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Classification Summary Table
+
+Each citation category with its count, percentage of classifiable citations, and the HEROCON weight applied.
+
+**Web Interface**
+
+<img src="/gradio_api/file=app/assets/classification-summary.png" alt="Classification summary — Web Interface" style="max-width: 100%; height: auto; display: block;">
+
+**Command Line Interface**
+
+<img src="/gradio_api/file=app/assets/classification-summary-cli.png" alt="Classification summary — Command Line Interface" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Career Trajectory Chart
+
+Cumulative BARON and HEROCON scores over time as dual lines, with a shaded gap region between them. Stacked bars beneath show annual citation volume.
+
+**Web Interface**
+
+<img src="/gradio_api/file=app/assets/career-trajectory.png" alt="Career trajectory chart — Web Interface" style="max-width: 100%; height: auto; display: block;">
+
+**Command Line Interface**
+
+<img src="/gradio_api/file=app/assets/career-trajectory-cli.png" alt="Career trajectory chart — Command Line Interface" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Full Citation Table (Audit Trail)
+
+Every individual citation with its classification, confidence level, detection phase, and a human-readable rationale. Any classification can be inspected, questioned, and contested.
+
+<img src="/gradio_api/file=app/assets/citation-table.png" alt="Full citation table from the audit trail" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Comparison View
+
+Upload multiple audit JSON files to the **View Existing Audits** tab for side-by-side structural analysis. (Researcher names shown below have been anonymized.)
+
+**Comparison Table**
+
+<img src="/gradio_api/file=app/assets/comparison-table.png" alt="Comparison table" style="max-width: 100%; height: auto; display: block;">
+
+**BARON Trajectory Comparison**
+
+<img src="/gradio_api/file=app/assets/baron-trajectory-comparison.png" alt="BARON trajectory comparison" style="max-width: 100%; height: auto; display: block;">
+
+**HEROCON Trajectory Comparison**
+
+<img src="/gradio_api/file=app/assets/herocon-trajectory-comparison.png" alt="HEROCON trajectory comparison" style="max-width: 100%; height: auto; display: block;">
+
+**Individual Reports within Comparison View**
+
+<img src="/gradio_api/file=app/assets/individual-reports.png" alt="Individual reports within the comparison view" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Phased Architecture
+
+The detection pipeline progressively deepens from self-citation through co-authorship, affiliation matching, and venue governance.
+
+<img src="/gradio_api/file=app/assets/phased-architecture.png" alt="Phased implementation architecture" style="max-width: 100%; height: auto; display: block;">
+
+---
+
+### Development Roadmap
+
+<img src="/gradio_api/file=app/assets/project-plan.png" alt="Development roadmap" style="max-width: 100%; height: auto; display: block;">
 """

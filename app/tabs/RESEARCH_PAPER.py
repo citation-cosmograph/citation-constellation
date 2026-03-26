@@ -8,10 +8,14 @@ RESEARCH_PAPER = r"""
 
 # Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores*
 
-*\*The acronyms BARON and HEROCON serve as metaphors that encode the conceptual relationship between the scores, as detailed in [Section 5](#5-nomenclature-as-framework-the-metaphors-of-baron-and-herocon).*
+**Paper Download Link:** [arxiv.org/pdf/2603.24216](https://arxiv.org/pdf/2603.24216)
+
+*\*The acronyms BARON and HEROCON serve as metaphors that encode the conceptual relationship between the scores, as detailed in [Section 5]*
 
 **Mahbub Ul Alam**
+
 SciLifeLab Data Centre, Uppsala University, Sweden
+
 mahbub.ul.alam@scilifelab.uu.se, mahbub.ul.alam.anondo@gmail.com
 
 ---
@@ -63,7 +67,7 @@ Fifth, the Phase 4 pipeline employs an AI-agent-driven venue governance extracti
 
 Finally, the dual-score framework, comprising BARON (Boundary-Anchored Research Outreach Network score, a strict binary metric) and HEROCON (Holistic Equilibrated Research Outreach CONstellation score, a graduated weighted metric), provides an interpretable summary in which the gap between scores serves as a structural diagnostic of inner-circle dependence.
 
-To ensure full accessibility for researchers regardless of their technical background, Citation-Constellation is available as both a command-line application and a no-code web interface (see [Table 2](#table-2-the-citation-cosmograph-ecosystem) for links).
+To ensure full accessibility for researchers regardless of their technical background, Citation-Constellation is available as both a command-line application and a no-code web interface (see [Table 2].
 
 I emphasize that the HEROCON weights are experimental defaults informed by reasoning about relationship proximity, not empirically calibrated values. I present these tools as structural diagnostics, not quality indicators. BARON and HEROCON describe where in the social graph citations originate. They should not be used for hiring, promotion, or funding decisions.
 
@@ -259,57 +263,57 @@ As detection layers deepen (Table 3), BARON decreases as more in-group relations
 
 **Ethical Notice.** Every analysis output begins with a prominent ethical disclaimer (Figure 1), reinforcing that BARON and HEROCON measure citation network structure, not research quality, impact, or integrity, and should not be used for hiring, promotion, or funding decisions.
 
-![Figure 1: Ethical notice displayed at the top of every analysis output.](media/ethical-note.png)
+Figure 1: Ethical notice displayed at the top of every analysis output.
 
 <img src="/gradio_api/file=app/assets/ethical-note.png" alt="Ethical notice displayed at the top of every analysis output" style="max-width: 100%; height: auto; display: block;">
 
 **Full Score Panel.** The score panel (Figure 2) presents the BARON and HEROCON scores alongside key summary statistics: total citations, classifiable citations, the BARON–HEROCON gap, and a data quality reliability rating. Both the web interface and command-line interface produce equivalent information, formatted for their respective contexts.
 
-![Figure 2a: Score panel — Web Interface](media/score-panel-tool.png)
+Figure 2a: Score panel — Web Interface
 <img src="/gradio_api/file=app/assets/score-panel-tool.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
-![Figure 2b: Score panel — Command Line Interface](media/score-panel-tool-cli.png)
+Figure 2b: Score panel — Command Line Interface
 <img src="/gradio_api/file=app/assets/score-panel-tool-cli.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 **Classification Breakdown Donut Chart.** The donut chart (Figure 3) provides a proportional breakdown of citation origins across all classification categories, with the BARON and HEROCON scores displayed in the center. This gives an immediate visual sense of how a researcher's citations distribute across network layers.
 
-![Figure 3: Classification breakdown donut chart.](media/classification-breakdown.png)
+Figure 3: Classification breakdown donut chart.
 <img src="/gradio_api/file=app/assets/classification-breakdown.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 **Co-author Network Graph.** The interactive co-author network graph (Figures 4 and 5) renders the target researcher as a gold node, direct co-authors in crimson (sized proportionally to the number of shared publications), and transitive co-authors in blue. Hovering over any node reveals the author name, shared paper count, and co-authorship recency. Networks exceeding 150 nodes are automatically pruned for readability.
 
-![Figure 4: Co-author network graph (overview).](media/co-author-network.png)
+Figure 4: Co-author network graph (overview).
 <img src="/gradio_api/file=app/assets/co-author-network.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
-![Figure 5: Co-author network graph (detail).](media/co-author-network2.png)
+Figure 5: Co-author network graph (detail).
 <img src="/gradio_api/file=app/assets/co-author-network2.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
 **Classification Summary.** The classification summary table (Figure 6) lists each citation category with its count, percentage of classifiable citations, and the HEROCON weight applied. This tabular view complements the donut chart by providing exact numbers for each network layer.
 
-![Figure 6a: Classification summary — Web Interface](media/classification-summary.png)
+Figure 6a: Classification summary — Web Interface
 <img src="/gradio_api/file=app/assets/classification-summary.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
-![Figure 6b: Classification summary — Command Line Interface](media/classification-summary-cli.png)
+Figure 6b: Classification summary — Command Line Interface
 <img src="/gradio_api/file=app/assets/classification-summary-cli.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
 **Career Trajectory Chart.** The career trajectory chart (Figure 7) plots cumulative BARON and HEROCON scores over time as dual lines, with a shaded region between them representing the gap. Stacked bars beneath show annual citation volume. This visualization reveals how a researcher's external reach evolves across career stages, whether it grows after an institutional move, narrows as a lab expands, or remains stable over time.
 
-![Figure 7a: Career trajectory chart — Web Interface](media/career-trajectory.png)
+Figure 7a: Career trajectory chart — Web Interface
 <img src="/gradio_api/file=app/assets/career-trajectory.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
-![Figure 7b: Career trajectory chart — Command Line Interface](media/career-trajectory-cli.png)
+Figure 7b: Career trajectory chart — Command Line Interface
 <img src="/gradio_api/file=app/assets/career-trajectory-cli.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
 **Citation Table from Audit Trail.** The full citation table (Figure 8) exposes every individual citation with its classification, confidence level, detection phase, and a human-readable rationale explaining why that classification was assigned. This is the audit trail made visible: any classification can be inspected, questioned, and contested.
 
-![Figure 8: Full citation table from the audit trail.](media/citation-table.png)
+Figure 8: Full citation table from the audit trail
 <img src="/gradio_api/file=app/assets/citation-table.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
@@ -317,19 +321,19 @@ As detection layers deepen (Table 3), BARON decreases as more in-group relations
 
 The overlaid trajectory charts allow structural comparison of how external reach evolves across different researchers' careers. A department head could use these to understand whether early-career researchers in their group are building external visibility at a pace consistent with field norms, or whether a mid-career shift in collaboration patterns coincided with a change in citation composition. When researchers from different fields or institution types are compared, the trajectories can reveal whether apparent differences in raw citation counts mask similar underlying structural patterns, or whether nominally similar profiles diverge sharply in their network dependence over time. These are not evaluative rankings; they are structural narratives placed side by side.
 
-![Figure 9: Comparison table.](media/comparison-table.png)
+Figure 9: Comparison table.
 <img src="/gradio_api/file=app/assets/comparison-table.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
-![Figure 10: BARON trajectory comparison.](media/baron-trajectory-comparison.png)
+Figure 10: BARON trajectory comparison.
 <img src="/gradio_api/file=app/assets/baron-trajectory-comparison.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
-![Figure 11: HEROCON trajectory comparison.](media/herocon-trajectory-comparison.png)
+Figure 11: HEROCON trajectory comparison.
 <img src="/gradio_api/file=app/assets/herocon-trajectory-comparison.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
-![Figure 12: Individual reports within the comparison view.](media/individual-reports.png)
+Figure 12: Individual reports within the comparison view.
 <img src="/gradio_api/file=app/assets/individual-reports.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
@@ -341,13 +345,13 @@ In testing, OpenAlex had merged works from a different researcher with a similar
 
 ### 4.3 Limitations of Current Validation
 
-I acknowledge that the current demonstration is descriptive rather than validational. I have not yet established that BARON/HEROCON scores correlate with (or meaningfully diverge from) independent measures of citation motivation, research quality, or integrity. I identify such validation as a critical priority for future work (see [Section 10](#10-future-work)).
+I acknowledge that the current demonstration is descriptive rather than validational. I have not yet established that BARON/HEROCON scores correlate with (or meaningfully diverge from) independent measures of citation motivation, research quality, or integrity. I identify such validation as a critical priority for future work (see [Section 10]).
 
 ---
 
 ## 5 Nomenclature as Framework: The Metaphors of BARON and HEROCON
 
-![Figure 13: The Citation-Constellation emblem](media/cover-full.png)
+Figure 13: The Citation-Constellation emblem
 <div style="flex: 0 0 auto; padding: 0 30px; display: flex; align-items: center; justify-content: center;">
       <img src="/gradio_api/file=app/assets/logo.png" alt="Citation Constellation Logo" style="max-width: 100%; height: auto; border-radius: 12px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5)); display: block;">
     </div>
@@ -426,7 +430,7 @@ is for classification of citation,
  
 $$i$$ 
 
-Here "classifiable" excludes UNKNOWN citations (see [Section 6.7](#67-the-unknown-classification-and-data-quality-reporting)).
+Here "classifiable" excludes UNKNOWN citations (see [Section 6.7]).
 
 
 $$
@@ -437,15 +441,15 @@ The diagnostic gap represents the proportion of impact attributable to in-group 
 
 #### 6.1.1 The HEROCON weights as a testable hypothesis
 
-The HEROCON weights represent a formal hypothesis about the relative strength of different network pathways in mediating citation. I hypothesize that a direct co-authorship tie (weight 0.2) is a stronger predictor of network-mediated citation than mere departmental colocation (weight 0.1), because the former represents a deliberate intellectual collaboration while the latter may be purely administrative. I hypothesize that a tie through a co-author of a co-author (weight 0.5) is weaker than a direct tie but still represents a meaningful intellectual community, whereas a different-department colleague at the same institution (weight 0.4) might have even less direct intellectual overlap despite closer physical proximity. These hypotheses are eminently testable, and I identify their empirical calibration as my primary future work (see [Section 10](#10-future-work)).
+The HEROCON weights represent a formal hypothesis about the relative strength of different network pathways in mediating citation. I hypothesize that a direct co-authorship tie (weight 0.2) is a stronger predictor of network-mediated citation than mere departmental colocation (weight 0.1), because the former represents a deliberate intellectual collaboration while the latter may be purely administrative. I hypothesize that a tie through a co-author of a co-author (weight 0.5) is weaker than a direct tie but still represents a meaningful intellectual community, whereas a different-department colleague at the same institution (weight 0.4) might have even less direct intellectual overlap despite closer physical proximity. These hypotheses are eminently testable, and I identify their empirical calibration as my primary future work (see [Section 10]).
 
-I acknowledge these weights are experimental defaults, not empirically calibrated values. Researchers who wish to test alternative weightings may do so through full weight customization, available both via the CLI (`--herocon-weights path/to/weights.json`, see [Section 3.2.3](#323-common-flags) for details) and through the web interface's Advanced settings, where a custom weights JSON file can be uploaded before running an analysis (see [Section 3.1.1](#311-running-a-new-analysis), step **5** for details).
+I acknowledge these weights are experimental defaults, not empirically calibrated values. Researchers who wish to test alternative weightings may do so through full weight customization, available both via the CLI (`--herocon-weights path/to/weights.json`, see ([Section 3.2.3] for details) and through the web interface's Advanced settings, where a custom weights JSON file can be uploaded before running an analysis (see [Section 3.1.1], step **5** for details).
 
 ### 6.2 Phased Implementation Architecture
 
 Each phase adds a detection layer and produces a usable score. Later phases incorporate earlier layers.
 
-![Figure 14: Phased implementation architecture. Phases 1–3 are complete and available via CLI and web interface. Phase 4 (venue governance via local LLM) is under development. Phase 5 (field normalization) is planned.](media/phased-architecture.png)
+Figure 14: Phased implementation architecture. Phases 1–3 are complete and available via CLI and web interface. Phase 4 (venue governance via local LLM) is under development. Phase 5 (field normalization) is planned.
 <img src="/gradio_api/file=app/assets/phased-architecture.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
@@ -479,7 +483,7 @@ HEROCON is introduced in this phase with the 4-class taxonomy.
 
 Citations not classified as `SELF` or co-author are checked for institutional affiliation overlap at the time of citation. I build an affiliation timeline from work-level affiliation data in OpenAlex. Institutional relationships are resolved using ROR parent-child hierarchy and OpenAlex lineage data, producing four tiers: `SAME_DEPT`, `SAME_INSTITUTION`, `SAME_PARENT_ORG`, `DIFFERENT`.
 
-When affiliation data is insufficient for classification, citations are labeled `UNKNOWN` (see [Section 6.7](#67-the-unknown-classification-and-data-quality-reporting)).
+When affiliation data is insufficient for classification, citations are labeled `UNKNOWN` (see [Section 6.7]).
 
 #### 6.2.4 Phase 4: Venue Governance Detection
 
@@ -546,7 +550,7 @@ The g-index [50] and field-weighted citation impact [51] address some limitation
 
 Aksnes [53] demonstrated that self-citations constitute a significant fraction of total citations. Kacem et al. [54] provided a comprehensive analysis of self-citation patterns across disciplines. Critically, Ioannidis [3] introduced a generalized view of self-citation extending beyond direct author self-citation to include co-author self-citation, collaborative self-citation, and coercive induced self-citation. This taxonomy is directly relevant to my multi-layer approach. My BARON and HEROCON scores operationalize a similar decomposition, extending Ioannidis's conceptual framework into a computable, auditable system.
 
-Fowler and Aksnes [55] demonstrated that self-citation increases subsequent citation from others. Seeber et al. [56] explicitly framed self-citations as strategic responses to the use of metrics for career decisions, directly connecting to my Goodhart's Law concerns (see [Section 8.3](#83-the-goodhart-vulnerability)).
+Fowler and Aksnes [55] demonstrated that self-citation increases subsequent citation from others. Seeber et al. [56] explicitly framed self-citations as strategic responses to the use of metrics for career decisions, directly connecting to my Goodhart's Law concerns (see [Section 8.3]).
 
 #### 7.1.3 Network-Aware Citation Analysis
 
@@ -673,7 +677,7 @@ My mitigation: prominent disclaimers in every output, data quality reporting tha
 
 ### 8.4 The Case for HEROCON as Experimental
 
-I do not have empirical evidence for the specific HEROCON weight values. As discussed in [Section 6.1.1](#611-the-herocon-weights-as-a-testable-hypothesis), these weights encode a formal hypothesis about the relative strength of different network pathways. The ordering is consistent with findings that co-authorship represents a stronger social tie than mere institutional proximity [13, 14], and that transitive network connections carry meaningful but attenuated social influence [71, 4]. However, the cardinal distances between weights are not grounded in data.
+I do not have empirical evidence for the specific HEROCON weight values. As discussed in [Section 6.1.1], these weights encode a formal hypothesis about the relative strength of different network pathways. The ordering is consistent with findings that co-authorship represents a stronger social tie than mere institutional proximity [13, 14], and that transitive network connections carry meaningful but attenuated social influence [71, 4]. However, the cardinal distances between weights are not grounded in data.
 
 Preliminary informal testing suggests that HEROCON scores are relatively stable under small weight changes for researchers with diverse citation profiles. However, scores can shift substantially for researchers whose citations are concentrated in a single category. This echoes a general challenge in composite indicators [72, 73, 74].
 
@@ -697,15 +701,15 @@ I explicitly discourage use in hiring, promotion, or funding decisions as a stan
 
 **Temporal resolution limits.** Affiliation data is derived from publication-time institutional records, not employment records. A researcher changing institutions mid-year may have citations misclassified [76, 77, 78].
 
-**The small-field problem.** In a 50-person community, nearly everyone may be a co-author's co-author at depth 2 [12]. BARON would classify most citations as in-group, reflecting field size rather than citation practice. I plan to address this through field normalization (see [Section 10.4](#104-field-normalized-percentile-scoring-phase-5)).
+**The small-field problem.** In a 50-person community, nearly everyone may be a co-author's co-author at depth 2 [12]. BARON would classify most citations as in-group, reflecting field size rather than citation practice. I plan to address this through field normalization (see [Section 10.4]).
 
 **ORCID selection bias.** Researchers with complete ORCID records [19] tend to be affiliated with well-resourced institutions [79]. Consequently, my ORCID-based validation provides better protection for the researchers who perhaps need it least.
 
 **Author disambiguation remains imperfect.** Despite ORCID cross-validation, researchers without ORCID records cannot benefit.
 
-**HEROCON weights are not empirically calibrated.** Diverse profiles are robust to perturbation; concentrated profiles are sensitive (see [Section 6.1.1](#611-the-herocon-weights-as-a-testable-hypothesis)). Until calibration is completed, HEROCON should be interpreted as indicative rather than definitive.
+**HEROCON weights are not empirically calibrated.** Diverse profiles are robust to perturbation; concentrated profiles are sensitive (see [Section 6.1.1]). Until calibration is completed, HEROCON should be interpreted as indicative rather than definitive.
 
-**UNKNOWN creates a conditioned sample.** If UNKNOWN citations are systematically different from classifiable ones, from developing countries with poor metadata [80, 75], older publications, or certain disciplines, then computed scores reflect a biased subset. I plan to address this through sensitivity analysis (see [Section 10.1](#101-sensitivity-analysis-priority)).
+**UNKNOWN creates a conditioned sample.** If UNKNOWN citations are systematically different from classifiable ones, from developing countries with poor metadata [80, 75], older publications, or certain disciplines, then computed scores reflect a biased subset. I plan to address this through sensitivity analysis (see [Section 10.1]).
 
 **Department-level matching is noisy.** ROR lacks department-level identifiers for most institutions [27].
 
@@ -721,7 +725,7 @@ I explicitly discourage use in hiring, promotion, or funding decisions as a stan
 
 ## 10 Future Work
 
-![Figure 15: Development roadmap. Phase 4 introduces venue governance detection via a three-tool ecosystem (Pulsar, Astrolabe, Constellation). Phase 5 adds field normalization and comparative analytics. Phase 6 focuses on empirical validation and multi-source data fusion.](media/project-plan.png)
+Figure 15: Development roadmap. Phase 4 introduces venue governance detection via a three-tool ecosystem (Pulsar, Astrolabe, Constellation). Phase 5 adds field normalization and comparative analytics. Phase 6 focuses on empirical validation and multi-source data fusion.
 <img src="/gradio_api/file=app/assets/project-plan.png" alt="image" style="max-width: 100%; height: auto; display: block;">
 
 
@@ -1001,6 +1005,4 @@ Stockholm, Sweden<br>
 [87] S. Wuchty, B. F. Jones, and B. Uzzi, "The Increasing Dominance of Teams in Production of Knowledge," *Science*, vol. 316, no. 5827, pp. 1036–1039, 2007. doi:[10.1126/science.1136099](https://doi.org/10.1126/science.1136099)
 
 [88] I. Tahamtan and L. Bornmann, "What do citation counts measure? An updated review of studies on citations in scientific documents published between 2006 and 2018," *Scientometrics*, vol. 121, no. 3, pp. 1635–1684, 2019. doi:[10.1007/s11192-019-03243-4](https://doi.org/10.1007/s11192-019-03243-4)
-s classification, and "classifiable" excludes UNKNOWN citations (see [Section 6.7](#67-the-unknown-classification-and-data-quality-reporting)).
-
 """

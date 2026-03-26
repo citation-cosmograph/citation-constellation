@@ -1,14 +1,14 @@
 # citation-constellation Dockerfile
 # SciLifeLab Serve compliant: non-root user (uid 1000), port 7860
 # Build:
-# docker buildx build --platform linux/amd64,linux/arm64 -t mahbub1969/citation-constellation:v1 --push .
+# docker buildx build --platform linux/amd64,linux/arm64 --no-cache -t mahbub1969/citation-constellation:v1 --push .
 # Pull:
 # docker pull mahbub1969/citation-constellation:v1
 # Run:
 # docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v1
 
 # Use defaults (8 workers for 16 GB RAM)
-#docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v1
+# docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v1
 
 # Override for a smaller machine (4 GB)
 #docker run --rm -it -p 7860:7860 \

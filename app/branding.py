@@ -178,8 +178,12 @@ REPO_PULSAR = f"{GITHUB_ORG}/citation-pulsar-helm"
 REPO_ASTROLABE = f"{GITHUB_ORG}/citation-astrolabe"
 
 PAPER_REFERENCE = (
-    "Alam, M. U. (2026). Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores "
-    " *[arXiv: placeholder]*."
+    "Alam, M. U. (2026). Where Do Your Citations Come From? Citation-Constellation: "
+    "A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition "
+    "with Complementary BARON and HEROCON Scores. "
+    '<a href="https://arxiv.org/abs/2603.24216" target="_blank" '
+    'style="color: #d4af37; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.3);">'
+    "arXiv:2603.24216</a> [cs.DL]."
 )
 
 # ============================================================
@@ -189,13 +193,13 @@ FOOTER_HTML = f"""
 <div style="background: linear-gradient(180deg, #0f1419 0%, #1a1a2e 100%); padding: 35px 20px; margin-top: 0; border-top: 1px solid rgba(255,255,255,0.1); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; text-align: center; color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; border-radius: 16px;">
     
     <p style="margin: 0 0 12px 0; font-size: 1rem; color: rgba(255,255,255,0.9); font-weight: 600; letter-spacing: 0.5px;">
-        Part of the <a href="{GITHUB_ORG}" target="_blank" style="color: #d4af37; text-decoration: none; font-weight: 800; border-bottom: 1px solid rgba(212, 175, 55, 0.3); transition: all 0.3s ease;">citation-cosmograph</a> project
+        Part of the <a href="{GITHUB_ORG}" target="_blank" style="color: #d4af37; text-decoration: none; font-weight: 800; border-bottom: 1px solid rgba(212, 175, 55, 0.3); transition: all 0.3s ease;">citation-cosmograph</a> ecosystem
     </p>
     
     <p style="margin: 0 0 15px 0; font-size: 0.95rem; letter-spacing: 0.5px;">
         <a href="{REPO_PULSAR}" target="_blank" style="color: #9370db; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(147, 112, 219, 0.1); border: 1px solid rgba(147, 112, 219, 0.2); transition: all 0.3s ease;">citation-pulsar-helm</a> <span style="color: #9370db;">🌟</span>
         <span style="color: rgba(255,255,255,0.3); margin: 0 5px;">·</span>
-        <a href="{REPO_ASTROLABE}" target="_blank" style="color: #64b5f6; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(100, 181, 246, 0.1); border: 1px solid rgba(100, 181, 246, 0.2); transition: all 0.3s ease;">citation-astrolab</a>e <span style="color: #64b5f6;">🔭</span>
+        <a href="{REPO_ASTROLABE}" target="_blank" style="color: #64b5f6; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(100, 181, 246, 0.1); border: 1px solid rgba(100, 181, 246, 0.2); transition: all 0.3s ease;">citation-astrolabe</a> <span style="color: #64b5f6;">🔭</span>
         <span style="color: rgba(255,255,255,0.3); margin: 0 5px;">·</span>
         <a href="{REPO_CONSTELLATION}" target="_blank" style="color: #d4af37; text-decoration: none; font-weight: 600; margin: 0 8px; padding: 4px 12px; border-radius: 6px; background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.2); transition: all 0.3s ease;">citation-constellation</a> <span style="color: #d4af37;">✨</span>
     </p>
@@ -203,6 +207,18 @@ FOOTER_HTML = f"""
     <p style="margin: 15px 0; font-style: italic; color: rgba(255,255,255,0.5); font-size: 0.85rem; max-width: 600px; margin-left: auto; margin-right: auto; padding: 0 20px; border-left: 2px solid rgba(212, 175, 55, 0.3); border-right: 2px solid rgba(147, 112, 219, 0.3);">
         {PAPER_REFERENCE}
     </p>
+    
+    <div style="margin: 15px 0; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.06);">
+        <p style="margin: 0 0 8px 0; font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Contact</p>
+        <p style="margin: 0 0 6px 0; font-size: 0.85rem;">
+            <a href="mailto:mahbub.ul.alam@scilifelab.uu.se" style="color: rgba(255,255,255,0.6); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2);">mahbub.ul.alam@scilifelab.uu.se</a>
+            <span style="color: rgba(255,255,255,0.2); margin: 0 8px;">|</span>
+            <a href="mailto:mahbub.ul.alam.anondo@gmail.com" style="color: rgba(255,255,255,0.6); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2);">mahbub.ul.alam.anondo@gmail.com</a>
+        </p>
+        <p style="margin: 6px 0 0 0; font-size: 0.85rem;">
+            <a href="https://www.linkedin.com/in/anondo/" target="_blank" style="color: #5b9bd5; text-decoration: none; font-weight: 600; border-bottom: 1px solid rgba(91, 155, 213, 0.3);">LinkedIn</a>
+        </p>
+    </div>
     
     <p style="margin: 12px 0 8px 0; font-size: 0.85rem; color: rgba(255,255,255,0.5);">
         Hosted on <a href="https://serve.scilifelab.se" target="_blank" style="color: #a8d5a2; text-decoration: none; font-weight: 600; border-bottom: 1px solid rgba(168, 213, 162, 0.3);">SciLifeLab Serve</a> 
@@ -213,12 +229,28 @@ FOOTER_HTML = f"""
         <a href="https://ror.org" target="_blank" style="color: #90caf9; text-decoration: none; font-weight: 600; margin: 0 3px; border-bottom: 1px solid rgba(144, 202, 249, 0.3);">ROR</a>
     </p>
     
-    <p style="margin: 12px 0 0 0; font-size: 0.8rem; color: rgba(255,255,255,0.4); font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">
+    <p style="margin: 12px 0 15px 0; font-size: 0.8rem; color: rgba(255,255,255,0.4); font-weight: 500; letter-spacing: 1px; text-transform: uppercase;">
         MIT License
     </p>
+    
+    <div style="margin: 18px auto 0 auto; max-width: 640px; text-align: left; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px 18px;">
+        <p style="margin: 0 0 6px 0; font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;">Cite this work</p>
+        <p style="margin: 0 0 10px 0; font-size: 0.8rem; color: rgba(255,255,255,0.45);">
+            DOI: <a href="https://doi.org/10.48550/arXiv.2603.24216" target="_blank" style="color: #d4af37; text-decoration: none; border-bottom: 1px solid rgba(212, 175, 55, 0.3);">10.48550/arXiv.2603.24216</a>
+        </p>
+        <pre style="margin: 0; font-size: 0.75rem; color: rgba(255,255,255,0.45); font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; white-space: pre-wrap; word-break: break-all; line-height: 1.5; background: none; border: none; padding: 0;">@misc{{alam2026citationconstellation,
+  title={{Where Do Your Citations Come From? Citation-Constellation: A Free, Open-Source, No-Code, and Auditable Tool for Citation Network Decomposition with Complementary BARON and HEROCON Scores}},
+  author={{Mahbub Ul Alam}},
+  year={{2026}},
+  eprint={{2603.24216}},
+  archivePrefix={{arXiv}},
+  primaryClass={{cs.DL}},
+  url={{https://arxiv.org/abs/2603.24216}},
+  doi={{10.48550/arXiv.2603.24216}}
+}}</pre>
+    </div>
 </div>
 """
-
 # ============================================================
 # Header HTML
 # ============================================================
