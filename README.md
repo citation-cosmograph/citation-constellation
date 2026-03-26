@@ -23,6 +23,14 @@ Enter an **ORCID** or **OpenAlex ID** and receive a full multi-layer citation ne
 
 **Try it now:** [citation-constellation.serve.scilifelab.se](https://citation-constellation.serve.scilifelab.se)
 
+<!-- Sample comment -->
+<div align="center">
+   <figure>
+  <img src="demo.gif">
+   <figcaption><a href="https://citation-constellation.serve.scilifelab.se"><br>Citation-Constellation Tool- Visit https://citation-constellation.serve.scilifelab.se</a></figcaption>
+   </figure>
+</div>
+
 ---
 
 ## The Two Scores
