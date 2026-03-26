@@ -409,6 +409,11 @@ Sensitivity analysis of HEROCON weights, UNKNOWN imputation strategies, ground-t
 
 ---
 
+## Phased Implementation Architecture Diagram
+![ Phased Implementation Architecture Diagram](app/assets/phased-architecture.png)
+
+---
+
 ## Paper
 
 For the full methodology, conceptual foundations, tool landscape comparison, discussion of responsible research assessment alignment, and detailed limitations analysis, see the accompanying research paper:
