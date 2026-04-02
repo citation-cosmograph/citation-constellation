@@ -154,6 +154,12 @@ def build_tab():
         with single_section:
             gr.Markdown(f"---\n### *{DISCLAIMER_SHORT}*\n---")
             single_summary = gr.Markdown()
+            gr.Markdown(
+                "*ℹ️ The EXTERNAL % in the summary is computed against all citations "
+                "(including UNKNOWN). The BARON score excludes UNKNOWN from its denominator, "
+                "so BARON will be ≥ the raw EXTERNAL % when UNKNOWN citations are present.*",
+                visible=True,
+            )
             with gr.Row():
                 single_donut = gr.Plot(label="Classification Breakdown")
             single_summary_table = gr.Dataframe(label="Classification Summary", interactive=False)
@@ -162,6 +168,8 @@ def build_tab():
             single_trajectory_note = gr.Markdown(visible=False)
             with gr.Accordion("All Citation Classifications", open=False):
                 single_full_table = gr.Dataframe(label="Citations", interactive=False)
+                single_export_json_btn = gr.Button("📥 Export Citations as JSON (see instructions below)", size="sm")
+                single_export_file = gr.File(label="After clicking the button above, your download will appear here. Click the file link with the ↓ icon on the right to save it.", visible=True)
 
         # ── Multi-report comparison view ──
         multi_section = gr.Column(visible=False)
@@ -388,6 +396,28 @@ def build_tab():
                 acc_data["accordion"], acc_data["summary"],
                 acc_data["donut"], acc_data["graph"], acc_data["trajectory"],
             ])
+            
+        def on_export_json_viz(files):
+            """Export classifications from the first uploaded report."""
+            if not files:
+                return gr.update(value=None)
+            try:
+                filepath = files[0] if isinstance(files[0], str) else files[0].name
+                with open(filepath, "r", encoding="utf-8") as fh:
+                    audit_data = json.load(fh)
+                from app.components.classification_table import export_classifications_json
+                path = export_classifications_json(audit_data)
+                if path:
+                    return gr.update(value=path)
+            except Exception:
+                pass
+            return gr.update(value=None)
+
+        single_export_json_btn.click(
+            fn=on_export_json_viz,
+            inputs=[file_upload],
+            outputs=[single_export_file],
+        )
 
         visualize_btn.click(
             fn=on_visualize,

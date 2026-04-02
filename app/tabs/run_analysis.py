@@ -182,8 +182,14 @@ def build_tab():
         results_section = gr.Column(visible=False)
         with results_section:
             gr.Markdown(f"---\n### *{DISCLAIMER_SHORT}*\n---")
-            download_btn = gr.File(label="📥 Download Audit Report (JSON)")
+            download_btn = gr.File(label="📥 Download Audit Report (JSON). Click the file link with the ↓ icon on the right to save it.")
             score_summary = gr.Markdown()
+            gr.Markdown(
+                "*ℹ️ The EXTERNAL % in the summary is computed against all citations "
+                "(including UNKNOWN). The BARON score excludes UNKNOWN from its denominator, "
+                "so BARON will be ≥ the raw EXTERNAL % when UNKNOWN citations are present.*",
+                visible=True,
+            )
             summary_table = gr.Dataframe(
                 label="Classification Summary",
                 interactive=False,
@@ -200,11 +206,11 @@ def build_tab():
                     wrap=True,
                 )
                 export_json_btn = gr.Button(
-                    "📥 Export Citations as JSON", size="sm",
+                    "📥 Export Citations as JSON (see instructions below)", size="sm",
                 )
                 export_file = gr.File(
-                    label="Download",
-                    visible=False,
+                    label="After clicking the button above, your download will appear here. Click the file link with the ↓ icon on the right to save it.",
+                    visible=True,
                 )
 
         # ── All outputs for on_run and on_confirm ──
@@ -618,14 +624,14 @@ def build_tab():
         # ══════════════════════════════════════════════════════════
         def on_export_json(audit_data):
             if not audit_data:
-                return gr.update(visible=False)
+                return gr.update(value=None)
             try:
                 path = export_classifications_json(audit_data)
                 if path:
-                    return gr.update(value=path, visible=True)
+                    return gr.update(value=path)
             except Exception:
                 pass
-            return gr.update(visible=False)
+            return gr.update(value=None)
 
         # ── Wire up buttons ──
         # concurrency_limit = MAX_WORKERS × 5, imported as GRADIO_CONCURRENCY.
