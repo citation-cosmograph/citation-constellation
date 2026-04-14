@@ -138,8 +138,8 @@ python phase3.py --openalex-id A0000000000 --trajectory
 
 ```bash
 # Prebuilt image (recommended)
-docker pull mahbub1969/citation-constellation:v1
-docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v1
+docker pull mahbub1969/citation-constellation:v4
+docker run --rm -it -p 7860:7860 mahbub1969/citation-constellation:v4
 
 # Or build from source
 docker build -t citation-constellation:v0.3 .
